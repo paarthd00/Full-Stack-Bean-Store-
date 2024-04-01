@@ -6,6 +6,7 @@ export function API({ stack }: StackContext) {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
+      "POST /chat": "packages/functions/src/lambda.handler"
     },
   });
 

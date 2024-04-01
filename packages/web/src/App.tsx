@@ -6,7 +6,6 @@ function App() {
   const [message, setMessage] = useState("Hi 👋");
 
   useEffect(() => {
-    // Post request to chat endpoint
     (async () => {
       await fetch(import.meta.env.VITE_APP_API_URL+ "/chat", {
         method: 'POST',
@@ -20,10 +19,7 @@ function App() {
         console.log(data)
       }
       ) 
-
     })()
-
-
   }, []);
 
   function onClick() {
@@ -34,7 +30,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="card">
+      <div className="bg-[#fff] px-3">
         <button onClick={onClick}>
           Message is "<i>{message}</i>"
         </button>

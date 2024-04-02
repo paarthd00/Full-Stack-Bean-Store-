@@ -2,11 +2,17 @@ import { StackContext, Api, StaticSite } from "sst/constructs";
 
 export function API({ stack }: StackContext) {
   const api = new Api(stack, "api", {
+    defaults:{
+      function:{
+        environment:{
+          PINECONE_API: process.env.PINECONE_API!
+        }
+      }
+    },
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
-      "POST /chat": "packages/functions/src/lambda.handler"
     },
   });
 

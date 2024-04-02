@@ -1,9 +1,10 @@
-import { pgTable, text, integer, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, serial } from "drizzle-orm/pg-core";
 
 export const coffees = pgTable("coffees", {
   id: serial("id").primaryKey(),
   name: text("name"),
-  price: integer("price"),
+  flavor: text("flavor"), 
+  roast: text("roast"),
   origin: text("origin"),
 });
 

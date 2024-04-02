@@ -1,8 +1,9 @@
 import * as z from 'zod';
 
-export const addCofeeFormSchema = z.object({
+export const addCoffeeFormSchema = z.object({
   name: z.string(),
   origin: z.string(),
-  price: z.number()
+  flavor: z.string(),
+  roast: z.string(),
 });
 

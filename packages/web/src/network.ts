@@ -2,7 +2,8 @@ export type Coffee = {
   id?: number;
   name: string;
   origin: string;
-  price: number;
+  flavor: string;
+  roast: string;
 }
 
 export const getCoffees = async (): Promise<Coffee[]> => {

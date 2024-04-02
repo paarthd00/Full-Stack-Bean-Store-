@@ -1,14 +1,13 @@
 CREATE TABLE IF NOT EXISTS "coffees" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text,
-	"price" integer,
+	"flavor" text,
+	"roast" text,
 	"origin" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "faq" (
+CREATE TABLE IF NOT EXISTS "faqs" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"question" text,
-	"answer" text,
-	"created_at" timestamp,
-	"updated_at" timestamp
+	"answer" text
 );

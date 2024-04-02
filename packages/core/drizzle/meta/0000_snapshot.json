@@ -1,5 +1,5 @@
 {
-  "id": "2e91257f-63c5-49eb-97f4-082427c81f4b",
+  "id": "1c570750-7e9b-4a0a-9fd5-39cb146efd7a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -20,9 +20,15 @@
           "primaryKey": false,
           "notNull": false
         },
-        "price": {
-          "name": "price",
-          "type": "integer",
+        "flavor": {
+          "name": "flavor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "roast": {
+          "name": "roast",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -38,8 +44,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "faq": {
-      "name": "faq",
+    "faqs": {
+      "name": "faqs",
       "schema": "",
       "columns": {
         "id": {
@@ -57,18 +63,6 @@
         "answer": {
           "name": "answer",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         }

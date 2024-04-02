@@ -17,5 +17,9 @@ export const coffeeRoute = {
     const { id } = await c.req.json();
     await db.delete(coffees).where(eq(coffees.id, id));
     return c.json({ id });
+  },
+  recommendations: async (c: Context) => {
+    // some logic to get recommendations
+    return c.json([]);
   }
 };

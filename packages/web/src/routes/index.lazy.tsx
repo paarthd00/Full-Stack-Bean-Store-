@@ -68,7 +68,8 @@ export default function Index() {
               <h1>{coffee.name}</h1>
               <div className='flex gap-2 items-center'>
                 <p>{coffee.origin}</p>
-                <p>$ {coffee.price}</p>
+                <p> {coffee.roast}</p>
+                <p> {coffee.flavor}</p>
                 <button
                   onClick={()=>{
                     if(!coffee.id) return

@@ -17,7 +17,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { addCofeeFormSchema } from '../lib/validation';
+import { addCoffeeFormSchema } from '../lib/validation';
 
 export const Route = createLazyFileRoute('/add-coffee')({
   component: AddCoffee,
@@ -26,12 +26,13 @@ export const Route = createLazyFileRoute('/add-coffee')({
 export default function AddCoffee() {
   const Navigate = useNavigate();
 
-  const addCofeeForm = useForm<z.infer<typeof addCofeeFormSchema>>({
-    resolver: zodResolver(addCofeeFormSchema),
+  const addCoffeeForm = useForm<z.infer<typeof addCoffeeFormSchema>>({
+    resolver: zodResolver(addCoffeeFormSchema),
     defaultValues: {
       name: "",
       origin: "",
-      price: 0,
+      roast: "medium",
+      flavor: "citrus",
     },
   });
 
@@ -40,10 +41,10 @@ export default function AddCoffee() {
     onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
   });
 
-  const handleSubmit = async (values: z.infer<typeof addCofeeFormSchema>) => {
-    const { name, origin, price } = values;
+  const handleSubmit = async (values: z.infer<typeof addCoffeeFormSchema>) => {
+    const { name, origin, flavor, roast} = values;
     try {
-      addCoffeeMutation.mutate({name, origin, price });
+      addCoffeeMutation.mutate({name, origin, flavor, roast });
     } catch (error) {
       alert("Error creating post");
     } finally {
@@ -53,12 +54,12 @@ export default function AddCoffee() {
 
   return (
     <div className='container flex'>
-      <Form {...addCofeeForm}>
+      <Form {...addCoffeeForm}>
         <form
-          onSubmit={addCofeeForm.handleSubmit(handleSubmit)}
+          onSubmit={addCoffeeForm.handleSubmit(handleSubmit)}
         >
           <FormField
-            control={addCofeeForm.control}
+            control={addCoffeeForm.control}
             name="name"
             render={({ field }) => (
               <FormItem className="w-[100%]">
@@ -70,7 +71,7 @@ export default function AddCoffee() {
             )}
           />
           <FormField
-            control={addCofeeForm.control}
+            control={addCoffeeForm.control}
             name="origin"
             render={({ field }) => (
               <FormItem className="w-[100%]">
@@ -82,22 +83,24 @@ export default function AddCoffee() {
             )}
           />
           <FormField
-            control={addCofeeForm.control}
-            name="price"
+            control={addCoffeeForm.control}
+            name="flavor"
             render={({ field }) => (
-              <FormItem className="w-[100%] ">
+              <FormItem className="w-[100%]">
                 <FormControl>
-                  <Input
-                    type="number"
-                    min="0"
-                    className="rounded"
-                    placeholder="price" 
-                    {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      field.onChange(value !== '' ? Number(value) : undefined);
-                    }}
-                  />
+                  <Textarea className="rounded h-[20rem]" placeholder="flavor" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={addCoffeeForm.control}
+            name="roast"
+            render={({ field }) => (
+              <FormItem className="w-[100%]">
+                <FormControl>
+                  <Textarea className="rounded h-[20rem]" placeholder="roast" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

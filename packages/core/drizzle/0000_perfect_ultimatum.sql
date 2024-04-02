@@ -1,10 +1,8 @@
-CREATE TABLE IF NOT EXISTS "coffee" (
+CREATE TABLE IF NOT EXISTS "coffees" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text,
 	"price" integer,
-	"origin" text,
-	"created_at" timestamp,
-	"updated_at" timestamp
+	"origin" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "faq" (

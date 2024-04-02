@@ -5,8 +5,6 @@ export const coffees = pgTable("coffees", {
   name: text("name"),
   price: integer("price"),
   origin: text("origin"),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
 });
 
 export type coffeeType = typeof coffees.$inferSelect;

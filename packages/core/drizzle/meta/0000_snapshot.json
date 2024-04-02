@@ -1,11 +1,11 @@
 {
-  "id": "96a9a0a3-da89-48a2-a8c0-77a4424ecd24",
+  "id": "2e91257f-63c5-49eb-97f4-082427c81f4b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "coffee": {
-      "name": "coffee",
+    "coffees": {
+      "name": "coffees",
       "schema": "",
       "columns": {
         "id": {
@@ -29,18 +29,6 @@
         "origin": {
           "name": "origin",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         }

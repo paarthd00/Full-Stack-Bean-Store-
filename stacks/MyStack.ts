@@ -15,6 +15,7 @@ export function API({ stack }: StackContext) {
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
       "POST /chat": "packages/functions/src/lambda.handler",
+      "POST /add-coffee": "packages/functions/src/lambda.handler"
     },
   });
 

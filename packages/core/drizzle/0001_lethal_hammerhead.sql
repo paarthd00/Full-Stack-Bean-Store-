@@ -1,0 +1,1 @@
+ALTER TABLE "coffee" RENAME TO "coffees";

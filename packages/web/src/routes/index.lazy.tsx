@@ -5,8 +5,6 @@ export const Route = createLazyFileRoute('/')({
 })
 import { useState, useEffect } from 'react'
 
-import '../App.css'
-
 export default function Index() {
   const [message, setMessage] = useState("Hi 👋");
 

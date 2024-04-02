@@ -8,6 +8,13 @@
       "when": 1712020748073,
       "tag": "0000_panoramic_sasquatch",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712035978146,
+      "tag": "0001_lethal_hammerhead",
+      "breakpoints": true
     }
   ]
 }

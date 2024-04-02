@@ -1,8 +1,9 @@
 {
-  "name": "@Bean-Store/functions",
+  "name": "@bean-store/functions",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "npx sst bind vite",
     "test": "sst bind vitest",
     "typecheck": "tsc -noEmit"
   },

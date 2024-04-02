@@ -1,8 +1,10 @@
 {
-  "name": "@Bean-Store/core",
+  "name": "@bean-store/core",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "migration:generate": "npx drizzle-kit generate:pg",
+    "db:push": "npx drizzle-kit push:pg",
     "test": "sst bind vitest",
     "typecheck": "tsc -noEmit"
   },

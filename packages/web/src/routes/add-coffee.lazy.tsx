@@ -37,7 +37,7 @@ export default function AddCoffee() {
 
   const addCoffeeMutation = useMutation({
     mutationFn: addCoffee,
-    onSettled: () => queryClient.invalidateQueries({ "queryKey": ["milkData"] })
+    onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
   });
 
   const handleSubmit = async (values: z.infer<typeof addCofeeFormSchema>) => {

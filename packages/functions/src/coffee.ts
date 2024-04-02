@@ -1,6 +1,7 @@
 import { db } from "@Bean-Store/core/db";
 import { coffees } from "@Bean-Store/core/db/schema/coffee";
 import { Context } from "hono";
+import { eq  } from "drizzle-orm";
 
 export const coffeeRoute = {
   getCoffees: async (c: Context) => {
@@ -12,4 +13,9 @@ export const coffeeRoute = {
     await db.insert(coffees).values(coffee);
     return c.json(coffee);
   },
+  deleteCoffee: async (c: Context) => {
+    const { id } = await c.req.json();
+    await db.delete(coffees).where(eq(coffees.id, id));
+    return c.json({ id });
+  }
 };

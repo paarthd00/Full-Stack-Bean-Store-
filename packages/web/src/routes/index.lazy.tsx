@@ -5,42 +5,56 @@ export const Route = createLazyFileRoute('/')({
 })
 import { useState, useEffect } from 'react'
 import { getCoffees } from '@/network';
-
-import { Coffee } from '@/network';
-
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/main';
+import { Coffee, deleteCoffee } from '@/network';
+import { useNavigate } from "@tanstack/react-router";
 export default function Index() {
   const [message, setMessage] = useState("Hi 👋");
-
+  const Navigate = useNavigate();
   useEffect(() => {
     (async () => {
-      await fetch(import.meta.env.VITE_APP_API_URL+ "/chat", {
+      await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ message: 'Hi' }),
-      })
-      .then(async (response) => {
+      }).then(async (response) => {
         const data = await response.json()
         console.log(data)
-      }
-      ) 
+      })
     })()
   }, []);
 
-  function onClick() {
-    fetch(import.meta.env.VITE_APP_API_URL)
-      .then((response) => response.text())
-      .then(setMessage);
+  async function onClick() {
+    await fetch(import.meta.env.VITE_APP_API_URL)
+    .then((response) => response.text())
+    .then(setMessage);
   }
 
-  const { isPending, error, data:coffeeData } = useQuery({
+  const deleteCoffeeMutation = useMutation({
+    mutationFn: deleteCoffee,
+    onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
+  });
+
+  const handleDelete = async (id:number) => {
+    try {
+      deleteCoffeeMutation.mutateAsync(id);
+    } catch (error) {
+      alert("Error creating post");
+    } finally {
+      Navigate({ to: "/" });
+    }
+  };
+
+  const { isPending: coffeeDataPending, error: coffeeDataError, data: coffeeData } = useQuery({
     queryKey: ['coffeeData'],
     queryFn: () => getCoffees(),
   })
 
-  if (isPending) return 'Loading...'
-  if (error) return 'An error has occurred: ' + error.message
+  if (coffeeDataPending) return 'Loading...'
+  if (coffeeDataError) return 'An error has occurred: ' + coffeeDataError.message
 
   return (
     <div className="App">
@@ -49,11 +63,19 @@ export default function Index() {
           Message is "<i>{message}</i>"
         </button>
         {
-          coffeeData?.map((coffee:Coffee, i:number) => (
-            <div key={i}>
+          coffeeData?.map((coffee: Coffee) => (
+            <div key={coffee.id}>
               <h1>{coffee.name}</h1>
-              <p>{coffee.origin}</p>
-              <p>$ {coffee.price}</p>
+              <div className='flex gap-2 items-center'>
+                <p>{coffee.origin}</p>
+                <p>$ {coffee.price}</p>
+                <button
+                  onClick={()=>{
+                    if(!coffee.id) return
+                    handleDelete(coffee?.id)
+                  }}
+                  className=''>Delete</button>
+              </div>
             </div>
           ))
         }

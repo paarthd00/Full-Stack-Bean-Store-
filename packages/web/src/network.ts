@@ -1,4 +1,5 @@
 export type Coffee = {
+  id?: number;
   name: string;
   origin: string;
   price: number;
@@ -25,5 +26,19 @@ export const addCoffee = async (coffee: Coffee) => {
 
   if (!response.ok) {
     throw new Error('Failed to add coffee');
+  }
+}
+
+export const deleteCoffee = async (id: number) => {
+  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/delete-coffee`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id })
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete coffee');
   }
 }

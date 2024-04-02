@@ -16,11 +16,15 @@ const route = app.get("/", (c: Context) => {
 });
 
 const getChatRoute = app.post("/chat", chatRoute.getResponses);
+
 const getCoffeesRoute = app.get("/coffees", coffeeRoute.getCoffees);
 const addCoffeeRoute = app.post("/add-coffee", coffeeRoute.addCoffee);
+const deleteCoffeeRoute = app.post("/delete-coffee", coffeeRoute.deleteCoffee);
 
 export type GetCoffeesRouteType = typeof getCoffeesRoute;
 export type AddCoffeeRouteType = typeof addCoffeeRoute;
+export type DeleteCoffeeRouteType = typeof deleteCoffeeRoute;
+
 export type ChatRouteType = typeof getChatRoute;
 export type RouteType = typeof route;
 

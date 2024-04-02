@@ -12,10 +12,11 @@ export function API({ stack }: StackContext) {
     },
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
+      "GET /coffees": "packages/functions/src/lambda.handler",
       "GET /todo": "packages/functions/src/todo.list",
       "POST /todo": "packages/functions/src/todo.create",
       "POST /chat": "packages/functions/src/lambda.handler",
-      "POST /add-coffee": "packages/functions/src/lambda.handler"
+      "POST /add-coffee": "packages/functions/src/lambda.handler",
     },
   });
 

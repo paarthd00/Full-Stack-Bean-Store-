@@ -1,4 +1,4 @@
-import { pgTable, timestamp, text, integer, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, serial } from "drizzle-orm/pg-core";
 
 export const coffees = pgTable("coffees", {
   id: serial("id").primaryKey(),

@@ -3,6 +3,7 @@
 A smart FAQ retrieval system for your favorite coffee store, powered by a RAG model and Pinecone for cutting-edge natural language search. 
 
 ## Todo
+
 [ ] Setup admin panel
 
 [ ] Setup Access Control

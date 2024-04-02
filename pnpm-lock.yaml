@@ -61,6 +61,9 @@ importers:
       '@pinecone-database/pinecone':
         specifier: ^2.2.0
         version: 2.2.0
+      hono:
+        specifier: ^4.1.2
+        version: 4.1.7
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.136
@@ -112,7 +115,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.3)
     devDependencies:
       '@types/node':
-        specifier: ^20.11.30
+        specifier: ^20.12.2
         version: 20.12.2
       '@types/react':
         specifier: ^18.2.64
@@ -6654,14 +6657,10 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: true
-=======
-=======
->>>>>>> 2f372617bc6182be763fc9a8f219875409f0571a
+
   /node-fetch@2.7.0(encoding@0.1.13):
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -6674,10 +6673,6 @@ packages:
       encoding: 0.1.13
       whatwg-url: 5.0.0
     dev: false
-<<<<<<< HEAD
->>>>>>> 2f372617bc6182be763fc9a8f219875409f0571a
-=======
->>>>>>> 2f372617bc6182be763fc9a8f219875409f0571a
 
   /node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==}

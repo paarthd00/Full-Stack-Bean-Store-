@@ -6,6 +6,23 @@ export type Coffee = {
   roast: string;
 }
 
+export const getInfo = async (prompt: string) => {
+  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/faq`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ prompt })
+    })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch info');
+  }
+
+  return response.json();
+}
+
 export const getCoffees = async (): Promise<Coffee[]> => {
   const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/coffees`);
 

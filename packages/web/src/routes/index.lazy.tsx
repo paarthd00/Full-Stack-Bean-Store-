@@ -12,21 +12,7 @@ import { useNavigate } from "@tanstack/react-router";
 export default function Index() {
   const [message, setMessage] = useState("Hi 👋");
   const Navigate = useNavigate();
-  useEffect(() => {
-    (async () => {
-      await fetch(import.meta.env.VITE_APP_API_URL + "/chat", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: 'Hi' }),
-      }).then(async (response) => {
-        const data = await response.json()
-        console.log(data)
-      })
-    })()
-  }, []);
-
+ 
   async function onClick() {
     await fetch(import.meta.env.VITE_APP_API_URL)
     .then((response) => response.text())

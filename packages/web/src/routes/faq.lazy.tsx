@@ -41,26 +41,29 @@ export default function FAQ() {
     }
   };
 
-  return <>
-    <Form {...getInfoForm}>
-      <form
-        onSubmit={getInfoForm.handleSubmit(handleSubmit)}
-      >
-        <FormField
-          control={getInfoForm.control}
-          name="prompt"
-          render={({ field }) => (
-            <FormItem className="w-[100%]">
-              <FormControl>
-                <Input className="rounded" placeholder="Coffee Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="btn" type="submit">Add New Coffee</Button>
-      </form>
-    </Form>
-    <>{response}</>
-  </>
+  return (
+    <div className="container">
+      <Form {...getInfoForm}>
+        <form
+          className='py-4 flex gap-2'
+          onSubmit={getInfoForm.handleSubmit(handleSubmit)}
+        >
+          <FormField
+            control={getInfoForm.control}
+            name="prompt"
+            render={({ field }) => (
+              <FormItem className="w-[100%]">
+                <FormControl>
+                  <Input className="rounded" placeholder="Question about coffee" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="btn bg-[#0c0c0c] px-3 py-1 rounded " type="submit">Ask</Button>
+        </form>
+      </Form>
+      <>{response}</>
+    </div>
+  )
 }

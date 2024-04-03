@@ -57,6 +57,7 @@ export default function AddCoffee() {
     <div className='container flex'>
       <Form {...addCoffeeForm}>
         <form
+          className="flex flex-col w-full gap-2 py-6 px-4"
           onSubmit={addCoffeeForm.handleSubmit(handleSubmit)}
         >
           <FormField
@@ -77,7 +78,7 @@ export default function AddCoffee() {
             render={({ field }) => (
               <FormItem className="w-[100%]">
                 <FormControl>
-                  <Textarea className="rounded h-[20rem]" placeholder="origin" {...field} />
+                  <Input className="rounded" placeholder="origin" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,7 +90,7 @@ export default function AddCoffee() {
             render={({ field }) => (
               <FormItem className="w-[100%]">
                 <FormControl>
-                  <Textarea className="rounded h-[20rem]" placeholder="flavor" {...field} />
+                  <Input className="rounded" placeholder="flavor" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,7 +102,7 @@ export default function AddCoffee() {
             render={({ field }) => (
               <FormItem className="w-[100%]">
                 <FormControl>
-                  <Textarea className="rounded h-[20rem]" placeholder="roast" {...field} />
+                  <Input className="rounded" placeholder="roast" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

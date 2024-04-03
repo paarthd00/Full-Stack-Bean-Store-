@@ -19,8 +19,8 @@ export const getInfo = async (prompt: string) => {
   if (!response.ok) {
     throw new Error('Failed to fetch info');
   }
-
-  return response.json();
+  const result = await response.json(); 
+  return result;
 }
 
 export const getCoffees = async (): Promise<Coffee[]> => {

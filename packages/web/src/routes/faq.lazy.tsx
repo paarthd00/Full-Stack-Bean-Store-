@@ -16,13 +16,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useNavigate } from "@tanstack/react-router";
 import { getInfoFormSchema } from '@/lib/validation';
 import { useState } from 'react';
 import { getInfo } from '@/network';
 
 export default function FAQ() {
-  const Navigate = useNavigate();
   const [response, setResponse] = useState<string>("");
   const getInfoForm = useForm<z.infer<typeof getInfoFormSchema>>({
     resolver: zodResolver(getInfoFormSchema),
@@ -34,8 +32,8 @@ export default function FAQ() {
   const handleSubmit = async (values: z.infer<typeof getInfoFormSchema>) => {
     const { prompt} = values;
     try {
-      await getInfo(prompt ); 
-      console.log(prompt);
+      const resp = await getInfo(prompt); 
+      setResponse(resp.data.content);
     } catch (error) {
       alert("Error creating post");
     } finally {

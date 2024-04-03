@@ -7,6 +7,7 @@ export function API({ stack }: StackContext) {
         environment: {
           DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL!,
           PINECONE_API: process.env.PINECONE_API!,
+          OPENAI_API_KEY: process.env.OPENAI_API_KEY!
         },
       },
     },

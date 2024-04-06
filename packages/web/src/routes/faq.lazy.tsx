@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-
+import { Card } from '@/components/ui/card';
 export const Route = createLazyFileRoute('/faq')({
   component: FAQ,
 })
@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { getInfo } from '@/network';
 
 export default function FAQ() {
-  const [response, setResponse] = useState<string>("");
+  const [responses, setResponses] = useState<string[]>([""]);
   const getInfoForm = useForm<z.infer<typeof getInfoFormSchema>>({
     resolver: zodResolver(getInfoFormSchema),
     defaultValues: {
@@ -30,10 +30,10 @@ export default function FAQ() {
   });
 
   const handleSubmit = async (values: z.infer<typeof getInfoFormSchema>) => {
-    const { prompt} = values;
+    const { prompt } = values;
     try {
-      const resp = await getInfo(prompt); 
-      setResponse(resp.data.content);
+      const resp = await getInfo(prompt);
+      setResponses(resp.data);
     } catch (error) {
       alert("Error creating post");
     } finally {
@@ -63,7 +63,15 @@ export default function FAQ() {
           <Button className="btn bg-[#0c0c0c] px-3 py-1 rounded " type="submit">Ask</Button>
         </form>
       </Form>
-      <>{response}</>
+      <div className='flex gap-3'>
+        {responses.map((el, i) => {
+          return <Card key={i} className='p-3'>
+            {el}
+          </Card>
+        })
+        }
+      </div>
+
     </div>
   )
 }

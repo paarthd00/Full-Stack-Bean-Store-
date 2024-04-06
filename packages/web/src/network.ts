@@ -20,6 +20,8 @@ export const getInfo = async (prompt: string) => {
     throw new Error('Failed to fetch info');
   }
   const result = await response.json(); 
+  console.log(result)
+  
   return result;
 }
 

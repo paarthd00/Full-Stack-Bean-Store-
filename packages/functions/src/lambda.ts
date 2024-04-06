@@ -4,12 +4,17 @@ import { faqRoute } from "./faq"
 import { coffeeRoute } from "./coffee";
 import { Context } from "hono";
 import dotenv from "dotenv";
-
-const app = new Hono();
+import { Pinecone } from '@pinecone-database/pinecone';
 
 dotenv.config({
   path: "../../../.env",
 });
+
+const app = new Hono();
+const pc = new Pinecone({
+  apiKey: process.env.PINECONE_API!
+});
+export const coffeeIndex = pc.index('coffees');
 
 const route = app.get("/", (c: Context) => {
   return c.json({ message: "Hello Hono!", name: "hi", age: 10 });

@@ -40,7 +40,7 @@ export const coffeeRoute = {
       {
         id: origin,
         values: vectorEmbedding,
-        metadata: { string: stringPrompt },
+        metadata: { name: name, origin: origin, flavor: flavor, roast: roast },
       },
     ]);
 

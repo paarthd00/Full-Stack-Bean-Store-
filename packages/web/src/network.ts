@@ -4,61 +4,62 @@ export type Coffee = {
   origin: string;
   flavor: string;
   roast: string;
-}
+};
 
 export const getInfo = async (prompt: string) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/faq`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prompt })
-    })
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch info');
-  }
-  const result = await response.json(); 
-  console.log(result)
+  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/faq`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt }),
+  });
   
+  const result = await response.json();
+
   return result;
-}
+};
 
 export const getCoffees = async (): Promise<Coffee[]> => {
   const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/coffees`);
 
   if (!response.ok) {
-    throw new Error('Failed to fetch coffees');
+    throw new Error("Failed to fetch coffees");
   }
 
   return response.json();
-}
+};
 
 export const addCoffee = async (coffee: Coffee) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/add-coffee`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(coffee)
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_API_URL}/add-coffee`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(coffee),
+    }
+  );
 
   if (!response.ok) {
-    throw new Error('Failed to add coffee');
+    throw new Error("Failed to add coffee");
   }
-}
+};
 
 export const deleteCoffee = async (id: number) => {
-  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/delete-coffee`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ id })
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_API_URL}/delete-coffee`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    }
+  );
 
   if (!response.ok) {
-    throw new Error('Failed to delete coffee');
+    throw new Error("Failed to delete coffee");
   }
-}
+};

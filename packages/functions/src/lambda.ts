@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
-import { faqRoute } from "./faq"
+import { faqRoute } from "./faq";
 import { coffeeRoute } from "./coffee";
 import { Context } from "hono";
 import dotenv from "dotenv";
-import { Pinecone } from '@pinecone-database/pinecone';
+import { Pinecone } from "@pinecone-database/pinecone";
 
 dotenv.config({
   path: "../../../.env",
@@ -12,9 +12,9 @@ dotenv.config({
 
 const app = new Hono();
 const pc = new Pinecone({
-  apiKey: process.env.PINECONE_API!
+  apiKey: process.env.PINECONE_API!,
 });
-export const coffeeIndex = pc.index('coffees');
+export const coffeeIndex = pc.index("coffees");
 
 const route = app.get("/", (c: Context) => {
   return c.json({ message: "Hello Hono!", name: "hi", age: 10 });
@@ -22,7 +22,10 @@ const route = app.get("/", (c: Context) => {
 
 const FAQRoute = app.post("/faq", faqRoute.getInfo);
 
-const recommendationsCoffeeRoute = app.post("/recommendations", coffeeRoute.recommendations);
+const recommendationsCoffeeRoute = app.post(
+  "/recommendations",
+  coffeeRoute.recommendations
+);
 const getCoffeesRoute = app.get("/coffees", coffeeRoute.getCoffees);
 const addCoffeeRoute = app.post("/add-coffee", coffeeRoute.addCoffee);
 const deleteCoffeeRoute = app.post("/delete-coffee", coffeeRoute.deleteCoffee);

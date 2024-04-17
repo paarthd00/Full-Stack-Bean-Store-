@@ -35,15 +35,42 @@ export const faqRoute = {
             {
               role: "user",
               content:
-                match?.metadata.string +
+                match?.metadata.name +
+                " " +
+                match?.metadata.origin +
+                " " +
+                match?.metadata.flavor +
+                " " +
+                match?.metadata.roast +
+                " coffee" +
                 " get more information about these types of coffees. What are the origin, flavor, notes, temprature and surroundings for the places where these type of coffees are found. ",
             },
           ],
           model: "gpt-3.5-turbo",
         });
-        return resp.choices[0].message.content;
+
+        const imageResp = await openai.images.generate({
+          prompt:
+            match?.metadata.name +
+            " " +
+            match?.metadata.origin +
+            " " +
+            match?.metadata.flavor +
+            " " +
+            match?.metadata.roast +
+            " coffee please provide an image of this coffee and the place where it is found.",
+          model: "dall-e-2",
+        });
+
+        return {
+          response: resp.choices[0].message.content,
+          imageResponse: imageResp.data[0].url,
+        };
       })
     );
-    return c.json({ data: allResp });
+
+    console.log(allResp);
+
+    return c.json({ allResp });
   },
 };

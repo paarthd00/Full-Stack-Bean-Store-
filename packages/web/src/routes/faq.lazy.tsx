@@ -33,9 +33,9 @@ export default function FAQ() {
     const { prompt } = values;
     try {
       const resp = await getInfo(prompt);
-      setResponses(resp.data);
+      setResponses(resp.allResp);
     } catch (error) {
-      alert("Error creating post");
+      console.log(error);
     } finally {
       console.log("done");
     }
@@ -64,9 +64,10 @@ export default function FAQ() {
         </form>
       </Form>
       <div className='flex gap-3'>
-        {responses.map((el, i) => {
+        {responses?.map((el, i) => {
           return <Card key={i} className='p-3'>
-            {el}
+            <img src={el?.imageResponse} alt="" />
+            {el?.response}
           </Card>
         })
         }

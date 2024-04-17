@@ -9,8 +9,10 @@ export function API({ stack }: StackContext) {
           PINECONE_API: process.env.PINECONE_API!,
           OPENAI_API_KEY: process.env.OPENAI_API_KEY!
         },
+        timeout: "30 seconds",
       },
     },
+    
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /coffees": "packages/functions/src/lambda.handler",

@@ -43,9 +43,9 @@ export default function AddCoffee() {
   });
 
   const handleSubmit = async (values: z.infer<typeof addCoffeeFormSchema>) => {
-    const { name, origin, flavor, roast} = values;
+    const { name, origin, flavor, roast } = values;
     try {
-      addCoffeeMutation.mutate({name, origin, flavor, roast });
+      addCoffeeMutation.mutate({ name, origin, flavor, roast });
     } catch (error) {
       alert("Error creating post");
     } finally {
@@ -108,6 +108,7 @@ export default function AddCoffee() {
               </FormItem>
             )}
           />
+
           <Button className="btn" type="submit">Add New Coffee</Button>
         </form>
       </Form>

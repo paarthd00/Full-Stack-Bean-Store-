@@ -3,6 +3,7 @@ import { coffees } from "@Bean-Store/core/db/schema/coffee";
 import { Context } from "hono";
 import { eq } from "drizzle-orm";
 import { coffeeIndex } from "./lambda";
+import { openai } from "./faq";
 
 export async function createEmbedding(text: string) {
   const response = await fetch("https://api.openai.com/v1/embeddings", {
@@ -32,15 +33,35 @@ export const coffeeRoute = {
     const embeddings = await createEmbedding(stringPrompt);
 
     const respJSON = await embeddings?.json();
-
     //@ts-ignore
     const vectorEmbedding = respJSON.data[0]["embedding"];
+
+    const imageResp = await openai.images.generate({
+      prompt:
+        name +
+        " " +
+        origin +
+        " " +
+        flavor +
+        " " +
+        roast +
+        " roast coffee please provide an image of this coffee and the place where it is found.",
+      model: "dall-e-3",
+    });
+
+    coffee.image = imageResp.data[0].url;
 
     await coffeeIndex.namespace("coffeens").upsert([
       {
         id: origin,
         values: vectorEmbedding,
-        metadata: { name: name, origin: origin, flavor: flavor, roast: roast },
+        metadata: {
+          name: name,
+          origin: origin,
+          flavor: flavor,
+          roast: roast,
+          image: coffee.image,
+        },
       },
     ]);
 

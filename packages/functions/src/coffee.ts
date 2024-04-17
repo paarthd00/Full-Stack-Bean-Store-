@@ -3,23 +3,22 @@ import { coffees } from "@Bean-Store/core/db/schema/coffee";
 import { Context } from "hono";
 import { eq } from "drizzle-orm";
 import { coffeeIndex } from "./lambda";
-import crypto from 'crypto';
 
-export function stringToVector(str: string) {
-  const hash = crypto.createHash('sha512');
-  hash.update(str);
-  const hashedStr = hash.digest('hex');
+export async function createEmbedding(text: string) {
+  const response = await fetch("https://api.openai.com/v1/embeddings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      input: text,
+      model: "text-embedding-3-small",
+    }),
+  });
 
-  let vector = [];
-  for (let i = 0; i < hashedStr.length; i += 2) {
-    vector.push(parseInt(hashedStr.substr(i, 2), 16));
-  }
-
-  vector = Array(8).fill(vector).flat();
-
-  return vector;
+  return response;
 }
-
 export const coffeeRoute = {
   getCoffees: async (c: Context) => {
     const data = await db.select().from(coffees);
@@ -28,34 +27,25 @@ export const coffeeRoute = {
   addCoffee: async (c: Context) => {
     const coffee = await c.req.json();
     const { name, origin, flavor, roast } = coffee;
-    const vectorName = stringToVector(name);
-    const vectorOrigin = stringToVector(origin);
-    const vectorFlavor = stringToVector(flavor);
-    const vectorRoast = stringToVector(roast);
-    await coffeeIndex.namespace('coffeens').upsert([
+
+    const stringPrompt = `${name} ${origin} ${flavor} ${roast}`;
+    const embeddings = await createEmbedding(stringPrompt);
+
+    const respJSON = await embeddings?.json();
+
+    //@ts-ignore
+    const vectorEmbedding = respJSON.data[0]["embedding"];
+
+    await coffeeIndex.namespace("coffeens").upsert([
       {
         id: origin,
-        values: vectorOrigin,
-        metadata: { origin: origin, name: name, flavor: flavor, roast: roast }
+        values: vectorEmbedding,
+        metadata: { string: stringPrompt },
       },
-      {
-        id: name,
-        values: vectorName,
-        metadata: { origin: origin, name: name, flavor: flavor, roast: roast }
-      },
-      {
-        id: flavor,
-        values: vectorFlavor,
-        metadata: { origin: origin, name: name, flavor: flavor, roast: roast }
-      },
-      {
-        id: roast,
-        values: vectorRoast,
-        metadata: { origin: origin, name: name, flavor: flavor, roast: roast }
-      }
     ]);
 
     await db.insert(coffees).values(coffee);
+
     return c.json(coffee);
   },
   deleteCoffee: async (c: Context) => {
@@ -67,5 +57,5 @@ export const coffeeRoute = {
     // some logic to get recommendations
 
     return c.json([]);
-  }
+  },
 };

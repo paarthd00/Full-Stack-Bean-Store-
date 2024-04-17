@@ -67,6 +67,9 @@ importers:
       '@pinecone-database/pinecone':
         specifier: ^2.2.0
         version: 2.2.0
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
       drizzle-orm:
         specifier: ^0.30.6
         version: 0.30.6(@aws-sdk/client-rds-data@3.540.0)(@neondatabase/serverless@0.9.0)(kysely@0.25.0)(react@18.2.0)

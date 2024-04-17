@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@pinecone-database/pinecone": "^2.2.0",
+    "axios": "^1.6.8",
     "drizzle-orm": "^0.30.6",
     "hono": "^4.1.2"
   }

@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { getInfo } from '@/network';
 
 export default function FAQ() {
-  const [responses, setResponses] = useState<string[]>([""]);
+  const [responses, setResponses] = useState<[]>([]);
   const getInfoForm = useForm<z.infer<typeof getInfoFormSchema>>({
     resolver: zodResolver(getInfoFormSchema),
     defaultValues: {
@@ -63,15 +63,33 @@ export default function FAQ() {
           <Button className="btn bg-[#0c0c0c] px-3 py-1 rounded " type="submit">Ask</Button>
         </form>
       </Form>
-      <div className='flex gap-3'>
-        {responses?.map((el, i) => {
-          return <Card key={i} className='p-3'>
-            <img src={el?.imageResponse} alt="" />
-            {el?.response}
-          </Card>
-        })
-        }
+      <div className='flex gap-2'>
+        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
+          Medium Roast
+        </Button>
+        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
+          Dark Roast
+        </Button>
+        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
+          Light Roast
+        </Button>
+        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
+          Earthy
+        </Button>
       </div>
+
+      {
+        responses.length > 0 &&
+        <div className='flex gap-3'>
+          {responses?.map((el, i) => {
+            return <Card key={i} className='p-3'>
+              <img src={el?.imageResponse} alt="" />
+              {el?.response}
+            </Card>
+          })
+          }
+        </div>
+      }
 
     </div>
   )

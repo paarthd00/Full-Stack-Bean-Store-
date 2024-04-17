@@ -59,7 +59,7 @@ export const faqRoute = {
             " " +
             match?.metadata.roast +
             " coffee please provide an image of this coffee and the place where it is found.",
-          model: "dall-e-2",
+          model: "dall-e-3",
         });
 
         return {
@@ -68,8 +68,6 @@ export const faqRoute = {
         };
       })
     );
-
-    console.log(allResp);
 
     return c.json({ allResp });
   },

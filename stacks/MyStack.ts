@@ -1,4 +1,4 @@
-import { StackContext, Api, StaticSite } from "sst/constructs";
+import { StackContext, Api, StaticSite, Bucket, Table } from "sst/constructs";
 
 export function API({ stack }: StackContext) {
   const api = new Api(stack, "api", {
@@ -7,12 +7,12 @@ export function API({ stack }: StackContext) {
         environment: {
           DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL!,
           PINECONE_API: process.env.PINECONE_API!,
-          OPENAI_API_KEY: process.env.OPENAI_API_KEY!
+          OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
         },
         timeout: "30 seconds",
       },
     },
-    
+
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /coffees": "packages/functions/src/lambda.handler",
@@ -33,8 +33,11 @@ export function API({ stack }: StackContext) {
     },
   });
 
+  const bucket = new Bucket(stack, "Uploads");
+
   stack.addOutputs({
     ApiEndpoint: api.url,
     WebsiteURL: web.url,
+    BucketName: bucket.bucketName,
   });
 }

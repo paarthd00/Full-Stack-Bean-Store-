@@ -3,22 +3,22 @@ import { useQuery } from '@tanstack/react-query';
 export const Route = createLazyFileRoute('/')({
   component: Index,
 })
-import { useState, useEffect } from 'react'
-import { getCoffees } from '@/network';
+// import { useState, useEffect } from 'react'
+import { getCoffees } from '@/network/coffee';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/main';
-import { Coffee, deleteCoffee } from '@/network';
+import { Coffee, deleteCoffee } from '@/network/coffee';
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
 export default function Index() {
-  const [message, setMessage] = useState("Hi 👋");
+  // const [message, setMessage] = useState("Hi 👋");
   const Navigate = useNavigate();
 
-  async function onClick() {
-    await fetch(import.meta.env.VITE_APP_API_URL)
-      .then((response) => response.text())
-      .then(setMessage);
-  }
+  // async function onClick() {
+  //   await fetch(import.meta.env.VITE_APP_API_URL)
+  //     .then((response) => response.text())
+  //     .then(setMessage);
+  // }
 
   const deleteCoffeeMutation = useMutation({
     mutationFn: deleteCoffee,
@@ -74,12 +74,12 @@ export default function Index() {
                     Add to Bag
                   </Button>
 
-                  {/* <button
+                  <button
                     onClick={() => {
                       if (!coffee.id) return
                       handleDelete(coffee?.id)
                     }}
-                    className=''>Delete</button> */}
+                    className=''>Delete</button>
                 </div>
               </div>
             ))

@@ -1,6 +1,7 @@
 import { StackContext, Api, StaticSite, Bucket, Table } from "sst/constructs";
 
 export function API({ stack }: StackContext) {
+  const assetsBucket = new Bucket(stack, "Uploads");
   const api = new Api(stack, "api", {
     defaults: {
       function: {
@@ -16,11 +17,17 @@ export function API({ stack }: StackContext) {
     routes: {
       "GET /": "packages/functions/src/lambda.handler",
       "GET /coffees": "packages/functions/src/lambda.handler",
-      "GET /todo": "packages/functions/src/todo.list",
-      "POST /todo": "packages/functions/src/todo.create",
       "POST /faq": "packages/functions/src/lambda.handler",
       "POST /add-coffee": "packages/functions/src/lambda.handler",
       "POST /delete-coffee": "packages/functions/src/lambda.handler",
+      "POST /get-signed-url": {
+        function: {
+          environment: {
+            ASSETS_BUCKET_NAME: assetsBucket.bucketName,
+          },
+          handler: "packages/functions/src/lambda.handler",
+        },
+      },
     },
   });
 
@@ -33,11 +40,10 @@ export function API({ stack }: StackContext) {
     },
   });
 
-  const bucket = new Bucket(stack, "Uploads");
+  api.attachPermissionsToRoute("POST /get-signed-url", [assetsBucket, "grantPut"]);
 
   stack.addOutputs({
     ApiEndpoint: api.url,
     WebsiteURL: web.url,
-    BucketName: bucket.bucketName,
   });
 }

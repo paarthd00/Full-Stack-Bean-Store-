@@ -9,5 +9,6 @@ export const addCoffeeFormSchema = z.object({
   origin: z.string(),
   flavor: z.string(),
   roast: z.string(),
+  image: z.any(),
 });
 

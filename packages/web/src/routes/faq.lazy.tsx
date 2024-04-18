@@ -16,9 +16,10 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+
 import { getInfoFormSchema } from '@/lib/validation';
 import { useState } from 'react';
-import { getInfo } from '@/network';
+import { getInfo } from '@/network/coffee';
 
 export default function FAQ() {
   const [responses, setResponses] = useState<[]>([]);
@@ -90,7 +91,6 @@ export default function FAQ() {
           }
         </div>
       }
-
     </div>
   )
 }

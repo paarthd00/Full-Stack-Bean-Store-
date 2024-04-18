@@ -1,11 +1,11 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { addCoffee } from '@/network';
+import { addCoffee } from '@/network/coffee';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/main';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "@tanstack/react-router";
-import { Textarea } from "@/components/ui/textarea";
+import { useState } from 'react';
 
 import {
   Form,
@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { addCoffeeFormSchema } from '../lib/validation';
+import { getSignedUrl } from '@/network/s3';
 
 export const Route = createLazyFileRoute('/add-coffee')({
   component: AddCoffee,
@@ -26,7 +27,22 @@ export const Route = createLazyFileRoute('/add-coffee')({
 
 export default function AddCoffee() {
   const Navigate = useNavigate();
+  const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
+  const [image, setImage] = useState<File | undefined>(undefined);
 
+  const handleFileChange = (file: File | undefined) => {
+    setImage(file);
+  }
+
+  const computeSHA256 = async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  };
   const addCoffeeForm = useForm<z.infer<typeof addCoffeeFormSchema>>({
     resolver: zodResolver(addCoffeeFormSchema),
     defaultValues: {
@@ -44,8 +60,41 @@ export default function AddCoffee() {
 
   const handleSubmit = async (values: z.infer<typeof addCoffeeFormSchema>) => {
     const { name, origin, flavor, roast } = values;
+
+    const imageSize = image?.size || 0;
+    const imageType = image?.type || "";
+    const hash = await computeSHA256(image as File);
+
+    const { imageSignedUrl } = await getSignedUrl({
+      name,
+      origin,
+      flavor,
+      roast,
+      imageSize,
+      imageType,
+      hash
+    });
+
+    console.log(imageSignedUrl.split("?")[0]);
+
     try {
-      addCoffeeMutation.mutate({ name, origin, flavor, roast });
+      await addCoffeeMutation.mutateAsync
+        ({
+          name,
+          origin,
+          flavor,
+          roast,
+          image: imageSignedUrl.split("?")[0],
+        });
+
+      await fetch(imageSignedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": imageType,
+        },
+        body: image
+      });
+
     } catch (error) {
       alert("Error creating post");
     } finally {
@@ -103,6 +152,45 @@ export default function AddCoffee() {
               <FormItem className="w-[100%]">
                 <FormControl>
                   <Input className="rounded" placeholder="roast" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={addCoffeeForm.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem className="w-[100%]">
+                {
+                  previewImage && (
+                    <img src={previewImage
+                    } alt="preview" className="w-24 h-24 object-cover rounded" />
+                  )
+                }
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    {...field}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (previewImage) {
+                        URL.revokeObjectURL(previewImage);
+                      }
+                      if (file) {
+                        const url = URL.createObjectURL(file);
+                        setPreviewImage(url);
+                        console.log({ file });
+                        console.log({ url });
+                        handleFileChange(file);
+                      } else {
+                        setPreviewImage(undefined);
+                        handleFileChange(undefined);
+                      }
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

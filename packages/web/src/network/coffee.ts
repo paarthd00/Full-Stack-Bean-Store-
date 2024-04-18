@@ -4,6 +4,7 @@ export type Coffee = {
   origin: string;
   flavor: string;
   roast: string;
+  image: string;
 };
 
 export const getInfo = async (prompt: string) => {
@@ -14,7 +15,7 @@ export const getInfo = async (prompt: string) => {
     },
     body: JSON.stringify({ prompt }),
   });
-  
+
   const result = await response.json();
 
   return result;

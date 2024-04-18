@@ -5,6 +5,7 @@ import { coffeeRoute } from "./coffee";
 import { Context } from "hono";
 import dotenv from "dotenv";
 import { Pinecone } from "@pinecone-database/pinecone";
+import { s3Route } from "./s3";
 
 dotenv.config({
   path: "../../../.env",
@@ -22,18 +23,15 @@ const route = app.get("/", (c: Context) => {
 
 const FAQRoute = app.post("/faq", faqRoute.getInfo);
 
-const recommendationsCoffeeRoute = app.post(
-  "/recommendations",
-  coffeeRoute.recommendations
-);
 const getCoffeesRoute = app.get("/coffees", coffeeRoute.getCoffees);
 const addCoffeeRoute = app.post("/add-coffee", coffeeRoute.addCoffee);
 const deleteCoffeeRoute = app.post("/delete-coffee", coffeeRoute.deleteCoffee);
+const getSignedUrlRoute = app.post("/get-signed-url", s3Route.getSignedUrl);
 
 export type GetCoffeesRouteType = typeof getCoffeesRoute;
 export type AddCoffeeRouteType = typeof addCoffeeRoute;
 export type DeleteCoffeeRouteType = typeof deleteCoffeeRoute;
-export type recommendationsCoffeeRouteType = typeof recommendationsCoffeeRoute;
+export type GetSignedUrlRouteType = typeof getSignedUrlRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

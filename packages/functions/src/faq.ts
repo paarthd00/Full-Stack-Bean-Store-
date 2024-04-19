@@ -3,7 +3,9 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import { createEmbedding } from "./coffee";
 import { coffeeIndex } from "./lambda";
-
+import { db } from "@Bean-Store/core/db";
+import { coffees } from "@Bean-Store/core/db/schema/coffee";
+import { eq } from "drizzle-orm";
 dotenv.config({
   path: "../../../.env",
 });
@@ -30,43 +32,52 @@ export const faqRoute = {
 
     const allResp = await Promise.all(
       vectorResponse.matches.map(async (match: any) => {
-        const resp = await openai.chat.completions.create({
-          messages: [
-            {
-              role: "user",
-              content:
-                match?.metadata.name +
-                " " +
-                match?.metadata.origin +
-                " " +
-                match?.metadata.flavor +
-                " " +
-                match?.metadata.roast +
-                " coffee" +
-                " get more information about these types of coffees. What are the origin, flavor, notes, temprature and surroundings for the places where these type of coffees are found. ",
-            },
-          ],
-          model: "gpt-3.5-turbo",
-        });
+        // const resp = await openai.chat.completions.create({
+        //   messages: [
+        //     {
+        //       role: "user",
+        //       content:
+        //         match?.metadata.name +
+        //         " " +
+        //         match?.metadata.origin +
+        //         " " +
+        //         match?.metadata.flavor +
+        //         " " +
+        //         match?.metadata.roast +
+        //         " coffee" +
+        //         " get more information about these types of coffees. What are the origin, flavor, notes, temprature and surroundings for the places where these type of coffees are found. ",
+        //     },
+        //   ],
+        //   model: "gpt-3.5-turbo",
+        // });
 
-        const imageResp = await openai.images.generate({
-          prompt:
-            match?.metadata.name +
-            " " +
-            match?.metadata.origin +
-            " " +
-            match?.metadata.flavor +
-            " " +
-            match?.metadata.roast +
-            " coffee please provide an image of this coffee and the place where it is found.",
-          model: "dall-e-3",
-        });
+        // const imageResp = await openai.images.generate({
+        //   prompt:
+        //     match?.metadata.name +
+        //     " " +
+        //     match?.metadata.origin +
+        //     " " +
+        //     match?.metadata.flavor +
+        //     " " +
+        //     match?.metadata.roast +
+        //     " coffee please provide an image of this coffee and the place where it is found.",
+        //   model: "dall-e-3",
+        // });
+
+        const coffeeData = await db
+          .select()
+          .from(coffees)
+          .where(eq(coffees.uuid, match.id));
+
 
         return {
           heading: match?.metadata.name,
-          response: resp.choices[0].message.content,
+          // response: resp.choices[0].message.content,
+          response: " coffeeData[0].description,",
           imageResponse: match?.metadata.image,
-          aiImage: imageResp.data
+          // aiImage: imageResp.data[0].url,
+          aiImage: match.metadata.image,
+          coffeeData: coffeeData[0],
         };
       })
     );

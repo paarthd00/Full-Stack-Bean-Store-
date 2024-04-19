@@ -107,10 +107,12 @@ export default function FAQ() {
         <div className='flex gap-3 flex-wrap'>
           {responses?.map((el: FAQResponse, i: number) => {
             console.log(el);
-            return <Card key={i} className='p-3 gap-3 lg:w-[30%]'>
+            return <Card key={i} className='p-3 gap-3 lg:w-[47%]'>
               <div>
-                <img className="mb-3 w-[100%]" src={el?.imageResponse} alt="" />
-
+                <div className='flex justify-between'>
+                  <img className="mb-3 w-[45%] rounded" src={el?.imageResponse} alt="" />
+                  <img className="mb-3 w-[45%] rounded" src={el.aiImage} alt="" />
+                </div>
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>{el.heading}</AccordionTrigger>

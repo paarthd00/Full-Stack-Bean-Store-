@@ -48,6 +48,7 @@ export default function AddCoffee() {
     defaultValues: {
       name: "",
       origin: "",
+      price: 1,
       roast: "medium",
       flavor: "citrus",
     },
@@ -59,7 +60,7 @@ export default function AddCoffee() {
   });
 
   const handleSubmit = async (values: z.infer<typeof addCoffeeFormSchema>) => {
-    const { name, origin, flavor, roast } = values;
+    const { name, origin, price, flavor, roast } = values;
 
     const imageSize = image?.size || 0;
     const imageType = image?.type || "";
@@ -82,6 +83,7 @@ export default function AddCoffee() {
         ({
           name,
           origin,
+          price,
           flavor,
           roast,
           image: imageSignedUrl.split("?")[0],
@@ -133,6 +135,24 @@ export default function AddCoffee() {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={addCoffeeForm.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem className="w-[100%]">
+                <FormControl>
+                  <Input
+                    onChange={(e) => {
+                      field.onChange(parseInt(e.target.value));
+                    }}
+                    type="number" className="rounded" min={1} placeholder="price" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={addCoffeeForm.control}
             name="flavor"

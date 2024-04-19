@@ -1,4 +1,4 @@
-import { pgTable, text, serial, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, uuid, integer } from "drizzle-orm/pg-core";
 
 export const coffees = pgTable("coffees", {
   id: serial("id").primaryKey(),
@@ -6,6 +6,7 @@ export const coffees = pgTable("coffees", {
   name: text("name"),
   flavor: text("flavor"),
   roast: text("roast"),
+  price: integer("price"),
   origin: text("origin"),
   image: text("image"),
 });

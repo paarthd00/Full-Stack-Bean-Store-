@@ -110,6 +110,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.3.4
         version: 3.3.4(react-hook-form@7.51.2(react@18.2.0))
+      '@kinde-oss/kinde-auth-react':
+        specifier: ^3.0.28
+        version: 3.0.28(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-label':
         specifier: ^2.0.2
         version: 2.0.2(@types/react-dom@18.2.23)(@types/react@18.2.73)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1539,6 +1542,15 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@kinde-oss/kinde-auth-pkce-js@3.0.32':
+    resolution: {integrity: sha512-ojqv8t/8nu7NqNhX7R1mRXe12vC11ubRjUnOYRYR+wC2Y+982uVaSgb3ODXB82XGqF9PJys7X5vzn6/4JNY24g==}
+
+  '@kinde-oss/kinde-auth-react@3.0.28':
+    resolution: {integrity: sha512-74cdoPIjiKMIictHbxtOHrn8tToyuT4/H8VPa0ITouPHCZGzLm46AfVv5wmEr9IygwSqAqW0ppGwTZK8/EFwYw==}
+    peerDependencies:
+      react: ^17.0.2 || ^18
+      react-dom: ^17.0.2 || ^18
 
   '@lukeed/ms@2.0.2':
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
@@ -3576,6 +3588,10 @@ packages:
 
   jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
+
+  jwt-decode@4.0.0:
+    resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
+    engines: {node: '>=18'}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -7420,6 +7436,16 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  '@kinde-oss/kinde-auth-pkce-js@3.0.32':
+    dependencies:
+      jwt-decode: 4.0.0
+
+  '@kinde-oss/kinde-auth-react@3.0.28(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@kinde-oss/kinde-auth-pkce-js': 3.0.32
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+
   '@lukeed/ms@2.0.2': {}
 
   '@neondatabase/serverless@0.9.0':
@@ -9859,6 +9885,8 @@ snapshots:
       universalify: 2.0.1
     optionalDependencies:
       graceful-fs: 4.2.11
+
+  jwt-decode@4.0.0: {}
 
   keyv@4.5.4:
     dependencies:

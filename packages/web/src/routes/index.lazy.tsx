@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 export const Route = createLazyFileRoute('/')({
   component: Index,
 })
-// import { useState, useEffect } from 'react'
 import { getCoffees } from '@/network/coffee';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/main';
@@ -11,15 +10,7 @@ import { Coffee, deleteCoffee } from '@/network/coffee';
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
 export default function Index() {
-  // const [message, setMessage] = useState("Hi 👋");
   const Navigate = useNavigate();
-
-  // async function onClick() {
-  //   await fetch(import.meta.env.VITE_APP_API_URL)
-  //     .then((response) => response.text())
-  //     .then(setMessage);
-  // }
-
   const deleteCoffeeMutation = useMutation({
     mutationFn: deleteCoffee,
     onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
@@ -46,9 +37,6 @@ export default function Index() {
   return (
     <div className="App">
       <div className="px-3 py-6">
-        {/* <button onClick={onClick}>
-          Message is "<i>{message}</i>"
-        </button> */}
         <div className='flex gap-4 flex-wrap'>
           {
             coffeeData?.map((coffee: Coffee) => (
@@ -69,17 +57,31 @@ export default function Index() {
                   <p>
                     <span>
                       <strong>Flavor Notes:</strong>
-                    </span> {coffee.flavor}</p>
-                  <Button className='bg-[#0c0c0c] hover:bg-[gray]' >
-                    Add to Bag
-                  </Button>
+                    </span> {coffee.flavor}
+                  </p>
 
-                  <button
-                    onClick={() => {
-                      if (!coffee.id) return
-                      handleDelete(coffee?.id)
-                    }}
-                    className=''>Delete</button>
+                  <div className='flex gap-2'>
+                    <Button
+                      onClick={() => {
+                        const cart = localStorage.getItem('cart');
+                        const cartObj = cart ? JSON.parse(cart) : [];
+                        cartObj.push(coffee);
+                        const uniqueCart = cartObj.filter((v: Coffee, i: number, a: Coffee[]) => a.findIndex(t => (t.id === v.id)) === i);
+                        localStorage.setItem('cart', JSON.stringify(uniqueCart));
+                      }}
+                      className='bg-[#0c0c0c] hover:bg-[gray] rounded'>
+                      Add to Bag
+                    </Button>
+
+                    <Button
+
+                      className='bg-[red] hover:bg-[orange] rounded'
+                      onClick={() => {
+                        if (!coffee.id) return
+                        handleDelete(coffee?.id)
+                      }}
+                    >Delete</Button>
+                  </div>
                 </div>
               </div>
             ))

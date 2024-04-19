@@ -8,7 +8,7 @@ dotenv.config({
   path: "../../../.env",
 });
 
-console.log(process.env.S3_BUCKET);
+console.log(process.env.BUCKET_NAME);
 
 const s3 = new S3Client({});
 
@@ -18,7 +18,7 @@ export const s3Route = {
     const putCommand = new PutObjectCommand({
       ACL: "public-read",
       Key: crypto.randomUUID(),
-      Bucket: "p-bean-store-api-uploadsbucketc4b27cc7-mteqijjo3siw"
+      Bucket: process.env.BUCKET_NAME!,
     });
 
     const imageSignedUrl = await getSignedUrl(s3, putCommand, {

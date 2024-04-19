@@ -9,6 +9,7 @@ export function API({ stack }: StackContext) {
           DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL!,
           PINECONE_API: process.env.PINECONE_API!,
           OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+          BUCKET_NAME: process.env.BUCKET_NAME!,
         },
         timeout: "30 seconds",
       },

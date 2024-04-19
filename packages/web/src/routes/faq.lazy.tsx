@@ -30,17 +30,24 @@ export default function FAQ() {
     },
   });
 
-  const handleSubmit = async (values: z.infer<typeof getInfoFormSchema>) => {
-    const { prompt } = values;
+  const handleGetInfo = async (prompt: string) => {
     try {
       const resp = await getInfo(prompt);
       setResponses(resp.allResp);
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
-    } finally {
+    }
+    finally {
       console.log("done");
     }
+  }
+
+  const handleSubmit = async (values: z.infer<typeof getInfoFormSchema>) => {
+    const { prompt } = values;
+    handleGetInfo(prompt);
   };
+
 
   return (
     <div className="container">
@@ -64,28 +71,52 @@ export default function FAQ() {
           <Button className="btn bg-[#0c0c0c] px-3 py-1 rounded " type="submit">Ask</Button>
         </form>
       </Form>
-      <div className='flex gap-2'>
-        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
-          Medium Roast
-        </Button>
-        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
-          Dark Roast
-        </Button>
-        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
-          Light Roast
-        </Button>
-        <Button className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
-          Earthy
-        </Button>
+      <div className='flex gap-2 py-3'>
+        {
+          ["Medium Roast", "Dark Roast"].map((el, i) => {
+            return <Button
+              onClick={() => {
+                handleGetInfo(el);
+              }}
+              key={i} className='bg-[#000] rounded hover:bg-[#0c0c0c]'>
+              {el}
+            </Button>
+          })
+        }
       </div>
 
       {
         responses.length > 0 &&
         <div className='flex gap-3'>
           {responses?.map((el, i) => {
-            return <Card key={i} className='p-3'>
-              <img src={el?.imageResponse} alt="" />
-              {el?.response}
+            return <Card key={i} className='p-3 gap-3'>
+              <div>
+                {
+                  // @ts-ignore
+                  el && el?.imageResponse &&
+                  // @ts-ignore
+                  <img className="mb-3" src={el?.imageResponse} alt="" />
+                }
+
+                {
+                  // @ts-ignore
+                  el && el?.response &&
+                  // @ts-ignore
+                  <p className='mb-3'>{el.response}</p>
+                }
+              </div>
+
+              <Button
+                onClick={() => {
+                  console.log(el);
+                  const cart = localStorage.getItem('cart');
+                  const cartObj = cart ? JSON.parse(cart) : [];
+                  cartObj.push(el);
+                  localStorage.setItem('cart', JSON.stringify(cartObj));
+                }}
+                className='bg-[#0c0c0c] p-3'>
+                Add to Cart
+              </Button>
             </Card>
           })
           }

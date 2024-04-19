@@ -49,22 +49,24 @@ export const faqRoute = {
           model: "gpt-3.5-turbo",
         });
 
-        // const imageResp = await openai.images.generate({
-        //   prompt:
-        //     match?.metadata.name +
-        //     " " +
-        //     match?.metadata.origin +
-        //     " " +
-        //     match?.metadata.flavor +
-        //     " " +
-        //     match?.metadata.roast +
-        //     " coffee please provide an image of this coffee and the place where it is found.",
-        //   model: "dall-e-3",
-        // });
+        const imageResp = await openai.images.generate({
+          prompt:
+            match?.metadata.name +
+            " " +
+            match?.metadata.origin +
+            " " +
+            match?.metadata.flavor +
+            " " +
+            match?.metadata.roast +
+            " coffee please provide an image of this coffee and the place where it is found.",
+          model: "dall-e-3",
+        });
 
         return {
+          heading: match?.metadata.name,
           response: resp.choices[0].message.content,
           imageResponse: match?.metadata.image,
+          aiImage: imageResp.data
         };
       })
     );

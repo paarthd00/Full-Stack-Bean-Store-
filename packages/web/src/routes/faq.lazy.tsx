@@ -1,5 +1,15 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { Card } from '@/components/ui/card';
+import { Coffee } from '@/network/coffee';
+
+
+type FAQResponse = {
+  heading: string;
+  response: string;
+  imageResponse: string;
+  aiImage: any;
+}
+
 export const Route = createLazyFileRoute('/faq')({
   component: FAQ,
 })
@@ -8,6 +18,13 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 import * as z from "zod";
 import {
   Form,
@@ -50,7 +67,7 @@ export default function FAQ() {
 
 
   return (
-    <div className="container">
+    <div className="container py-4">
       <Form {...getInfoForm}>
         <form
           className='py-4 flex gap-2'
@@ -87,36 +104,22 @@ export default function FAQ() {
 
       {
         responses.length > 0 &&
-        <div className='flex gap-3'>
-          {responses?.map((el, i) => {
-            return <Card key={i} className='p-3 gap-3'>
+        <div className='flex gap-3 flex-wrap'>
+          {responses?.map((el: FAQResponse, i: number) => {
+            console.log(el);
+            return <Card key={i} className='p-3 gap-3 lg:w-[30%]'>
               <div>
-                {
-                  // @ts-ignore
-                  el && el?.imageResponse &&
-                  // @ts-ignore
-                  <img className="mb-3" src={el?.imageResponse} alt="" />
-                }
+                <img className="mb-3 w-[100%]" src={el?.imageResponse} alt="" />
 
-                {
-                  // @ts-ignore
-                  el && el?.response &&
-                  // @ts-ignore
-                  <p className='mb-3'>{el.response}</p>
-                }
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>{el.heading}</AccordionTrigger>
+                    <AccordionContent>
+                      {el.response}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
-
-              <Button
-                onClick={() => {
-                  console.log(el);
-                  const cart = localStorage.getItem('cart');
-                  const cartObj = cart ? JSON.parse(cart) : [];
-                  cartObj.push(el);
-                  localStorage.setItem('cart', JSON.stringify(cartObj));
-                }}
-                className='bg-[#0c0c0c] p-3'>
-                Add to Cart
-              </Button>
             </Card>
           })
           }

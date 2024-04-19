@@ -8,6 +8,7 @@ type FAQResponse = {
   response: string;
   imageResponse: string;
   aiImage: any;
+  coffeeData: Coffee;
 }
 
 export const Route = createLazyFileRoute('/faq')({
@@ -117,14 +118,24 @@ export default function FAQ() {
                   <AccordionItem value="item-1">
                     <AccordionTrigger>{el.heading}</AccordionTrigger>
                     <AccordionContent>
-                      {el.response}
+                      <p className='py-3'>{el.response}</p>
+                      <Button
+                        onClick={() => {
+                          const cart = localStorage.getItem('cart');
+                          const cartObj = cart ? JSON.parse(cart) : [];
+                          cartObj.push(el.coffeeData);
+                          const uniqueCart = cartObj.filter((v: Coffee, i: number, a: Coffee[]) => a.findIndex(t => (t.id === v.id)) === i);
+                          localStorage.setItem('cart', JSON.stringify(uniqueCart));
+                        }}
+                        className='bg-[#0c0c0c] hover:bg-[gray] rounded'>
+                        Add to Bag
+                      </Button>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
               </div>
             </Card>
-          })
-          }
+          })}
         </div>
       }
     </div>

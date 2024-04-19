@@ -18,7 +18,7 @@ export const s3Route = {
     const putCommand = new PutObjectCommand({
       ACL: "public-read",
       Key: crypto.randomUUID(),
-      Bucket: process.env.BUCKET_NAME!,
+      Bucket: process.env.ASSETS_BUCKET_NAME!,
     });
 
     const imageSignedUrl = await getSignedUrl(s3, putCommand, {

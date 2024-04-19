@@ -59,6 +59,11 @@ export default function Index() {
                       <strong>Flavor Notes:</strong>
                     </span> {coffee.flavor}
                   </p>
+                  <p>
+                    <span>
+                      <strong>Price:</strong>
+                    </span> ${coffee.price}
+                  </p>
 
                   <div className='flex gap-2'>
                     <Button

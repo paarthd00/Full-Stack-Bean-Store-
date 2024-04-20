@@ -38,9 +38,12 @@ import {
 import { getInfoFormSchema } from '@/lib/validation';
 import { useState } from 'react';
 import { getInfo } from '@/network/coffee';
+import SuspenseCards from '@/components/suspense-cards';
 
 export default function FAQ() {
   const [responses, setResponses] = useState<[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const getInfoForm = useForm<z.infer<typeof getInfoFormSchema>>({
     resolver: zodResolver(getInfoFormSchema),
     defaultValues: {
@@ -50,8 +53,17 @@ export default function FAQ() {
 
   const handleGetInfo = async (prompt: string) => {
     try {
-      const resp = await getInfo(prompt);
-      setResponses(resp.allResp);
+      setIsLoading(true);
+      try {
+        const resp = await getInfo(prompt)
+        if (resp) {
+          setIsLoading(false);
+          setResponses(resp.allResp);
+        };
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
     }
     catch (error) {
       console.log(error);
@@ -104,7 +116,7 @@ export default function FAQ() {
       </div>
 
       {
-        responses.length > 0 &&
+        responses.length > 0 && isLoading === false &&
         <div className='flex gap-3 flex-wrap'>
           {responses?.map((el: FAQResponse, i: number) => {
             console.log(el);
@@ -137,6 +149,9 @@ export default function FAQ() {
             </Card>
           })}
         </div>
+      }
+      {
+        isLoading && <SuspenseCards />
       }
     </div>
   )

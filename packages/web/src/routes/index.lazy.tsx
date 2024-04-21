@@ -37,32 +37,18 @@ export default function Index() {
   return (
     <div className="App">
       <div className="px-3 py-6">
-        <div className='flex gap-4 flex-wrap'>
+        <div className='flex flex-wrap'>
           {
             coffeeData?.map((coffee: Coffee) => (
-              <div key={coffee.id}>
-                <img src={coffee.image} alt={coffee.name} className='rounded-full object-cover object-center w-[20rem] h-[20rem]' />
+              <div className='w-1/3 px-2 py-2' key={coffee.id}>
+                <img src={coffee.image} alt={coffee.name} className='rounded-xl object-cover object-center w-[100%] h-[20rem] py-2' />
                 <div className='flex flex-col gap-4 items-start'>
                   <h3 className='text-xl'>{coffee.name}</h3>
-                  <p>
-                    <span>
-                      <strong>ORIGIN: </strong>
-                    </span>
-                    {coffee.origin}</p>
-                  <p>
-                    <span>
-                      <strong>ROAST:</strong>
-                    </span>
-                    {coffee.roast}</p>
-                  <p>
-                    <span>
-                      <strong>Flavor Notes:</strong>
-                    </span> {coffee.flavor}
+                  <p className='text-slate-400'>
+                    From {coffee.origin}, {coffee.roast} roast, {coffee.flavor} flavor
                   </p>
                   <p>
-                    <span>
-                      <strong>Price:</strong>
-                    </span> ${coffee.price}
+                    ${coffee.price}
                   </p>
 
                   <div className='flex gap-2'>
@@ -93,6 +79,6 @@ export default function Index() {
           }
         </div>
       </div>
-    </div>
+    </div >
   );
 }

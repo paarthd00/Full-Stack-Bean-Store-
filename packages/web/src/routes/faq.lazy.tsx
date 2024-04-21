@@ -1,13 +1,13 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { Card } from '@/components/ui/card';
 import { Coffee } from '@/network/coffee';
-
+import { useEffect } from 'react';
 
 type FAQResponse = {
   heading: string;
   response: string;
   imageResponse: string;
-  aiImage: any;
+  aiImage: string;
   coffeeData: Coffee;
 }
 
@@ -59,7 +59,8 @@ export default function FAQ() {
         if (resp) {
           setIsLoading(false);
           setResponses(resp.allResp);
-        };
+          localStorage.setItem('Faq', JSON.stringify(resp.allResp)); 
+        }
       } catch (error) {
         setIsLoading(false);
         console.log(error);
@@ -77,6 +78,13 @@ export default function FAQ() {
     const { prompt } = values;
     handleGetInfo(prompt);
   };
+
+  useEffect(() => {
+    const faq = localStorage.getItem('Faq');
+    if (faq) {
+      setResponses(JSON.parse(faq));
+    }
+  }, [])
 
 
   return (

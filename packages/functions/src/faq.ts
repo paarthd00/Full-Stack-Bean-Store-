@@ -32,6 +32,7 @@ export const faqRoute = {
 
     const allResp = await Promise.all(
       vectorResponse.matches.map(async (match: any) => {
+  /**
         const resp = await openai.chat.completions.create({
           messages: [
             {
@@ -63,18 +64,20 @@ export const faqRoute = {
             " coffee please provide an image of this coffee and the place where it is found.",
           model: "dall-e-3",
         });
-
+*/
         const coffeeData = await db
           .select()
           .from(coffees)
           .where(eq(coffees.uuid, match.id));
 
+//response: resp.choices[0].message.content,
+// aiImage: imageResp.data[0].url,
 
         return {
           heading: match?.metadata.name,
-          response: resp.choices[0].message.content,
+          response: "",
           imageResponse: match?.metadata.image,
-          aiImage: imageResp.data[0].url,
+          aiImage: "",
           coffeeData: coffeeData[0],
         };
       })

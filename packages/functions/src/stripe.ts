@@ -29,8 +29,8 @@ export const stripeRoute = {
           },
         ],
         mode: "payment",
-        success_url: `https://localhost:5173/`,
-        cancel_url: `https://localhost:5173/cart`,
+        success_url: `${process.env.URL}/`,
+        cancel_url: `${process.env.URL}/cart`,
       });
 
       return c.json({ id: session.id });

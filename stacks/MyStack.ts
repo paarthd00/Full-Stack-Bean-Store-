@@ -10,6 +10,7 @@ export function API({ stack }: StackContext) {
           PINECONE_API: process.env.PINECONE_API!,
           OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
           STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
+          URL: process.env.URL!,
         },
         timeout: "60 seconds",
       },

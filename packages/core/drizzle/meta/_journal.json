@@ -29,6 +29,13 @@
       "when": 1713493238498,
       "tag": "0003_moaning_betty_brant",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1713739243720,
+      "tag": "0004_first_sentry",
+      "breakpoints": true
     }
   ]
 }

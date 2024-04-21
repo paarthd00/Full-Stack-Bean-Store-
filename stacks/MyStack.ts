@@ -9,6 +9,7 @@ export function API({ stack }: StackContext) {
           DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL!,
           PINECONE_API: process.env.PINECONE_API!,
           OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+          STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
         },
         timeout: "60 seconds",
       },
@@ -20,6 +21,7 @@ export function API({ stack }: StackContext) {
       "POST /faq": "packages/functions/src/lambda.handler",
       "POST /add-coffee": "packages/functions/src/lambda.handler",
       "POST /delete-coffee": "packages/functions/src/lambda.handler",
+      "POST /goto-checkout": "packages/functions/src/lambda.handler",
       "POST /get-signed-url": {
         function: {
           environment: {
@@ -40,7 +42,10 @@ export function API({ stack }: StackContext) {
     },
   });
 
-  api.attachPermissionsToRoute("POST /get-signed-url", [assetsBucket, "grantPut"]);
+  api.attachPermissionsToRoute("POST /get-signed-url", [
+    assetsBucket,
+    "grantPut",
+  ]);
 
   stack.addOutputs({
     ApiEndpoint: api.url,

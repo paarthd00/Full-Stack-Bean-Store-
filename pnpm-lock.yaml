@@ -85,6 +85,9 @@ importers:
       hono:
         specifier: ^4.1.2
         version: 4.1.7
+      stripe:
+        specifier: ^15.3.0
+        version: 15.3.0
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -122,6 +125,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.73)(react@18.2.0)
+      '@stripe/stripe-js':
+        specifier: ^3.3.0
+        version: 3.3.0
       '@tanstack/react-form':
         specifier: ^0.19.1
         version: 0.19.1(@types/react@18.2.73)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -155,6 +161,9 @@ importers:
       react-hook-form:
         specifier: ^7.51.2
         version: 7.51.2(react@18.2.0)
+      stripe:
+        specifier: ^15.3.0
+        version: 15.3.0
       tailwind-merge:
         specifier: ^2.2.2
         version: 2.2.2
@@ -2149,6 +2158,10 @@ packages:
   '@smithy/util-waiter@2.2.0':
     resolution: {integrity: sha512-IHk53BVw6MPMi2Gsn+hCng8rFA3ZmR3Rk7GllxDUW9qFJl/hiSvskn7XldkECapQVkIg/1dHpMAxI9xSTaLLSA==}
     engines: {node: '>=14.0.0'}
+
+  '@stripe/stripe-js@3.3.0':
+    resolution: {integrity: sha512-dUgAsko9KoYC1U2TIawHzbkQJzPoApxCc1Qf6/j318d1ArViyh6ROHVYTxnU3RlOQL/utUD9I4/QoyiCowsgrw==}
+    engines: {node: '>=12.16'}
 
   '@tanstack/form-core@0.19.1':
     resolution: {integrity: sha512-nV6/4rrMwom4D4j+fWJhUvz6ZQnUAlt/cwfiYrE9M51ljh70vyQ3V+5C6znxGkODyzJrwsmh/tFtrmzdkUngNQ==}
@@ -4576,6 +4589,10 @@ packages:
 
   strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
+
+  stripe@15.3.0:
+    resolution: {integrity: sha512-5J1NUZaCy0DnFINyxKWR+107BQ7gkhhOwMRp+ckHQP8j7+0HbwE8cN2Vi/qnja3k3sFC2ft6g6hcvM7lmavEAQ==}
+    engines: {node: '>=12.*'}
 
   strnum@1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
@@ -8321,6 +8338,8 @@ snapshots:
       '@smithy/types': 2.12.0
       tslib: 2.6.2
 
+  '@stripe/stripe-js@3.3.0': {}
+
   '@tanstack/form-core@0.19.1':
     dependencies:
       '@tanstack/store': 0.3.1
@@ -11117,6 +11136,11 @@ snapshots:
   strip-literal@2.1.0:
     dependencies:
       js-tokens: 9.0.0
+
+  stripe@15.3.0:
+    dependencies:
+      '@types/node': 20.12.2
+      qs: 6.11.0
 
   strnum@1.0.5: {}
 

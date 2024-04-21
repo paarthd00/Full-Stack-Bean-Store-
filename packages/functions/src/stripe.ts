@@ -34,8 +34,8 @@ export const stripeRoute = {
       });
 
       return c.json({ id: session.id });
-    } catch (err) {
-      //@ts-ignore
+    } catch (err: any) {
+      console.log(err);
       return c.json({ error: err.message });
     }
   },

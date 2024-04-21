@@ -8,24 +8,26 @@ dotenv.config({
   path: "../../../.env",
 });
 
-console.log(process.env.BUCKET_NAME);
-
 const s3 = new S3Client({});
 
 export const s3Route = {
   getSignedUrl: async (c: Context) => {
-    const coffee = await c.req.json();
     const putCommand = new PutObjectCommand({
       ACL: "public-read",
       Key: crypto.randomUUID(),
       Bucket: process.env.ASSETS_BUCKET_NAME!,
     });
 
-    const imageSignedUrl = await getSignedUrl(s3, putCommand, {
-      expiresIn: 3600,
-    });
+    try {
+      const imageSignedUrl = await getSignedUrl(s3, putCommand, {
+        expiresIn: 3600,
+      });
 
-    console.log({ imageSignedUrl });
-    return c.json({ imageSignedUrl });
+      console.log({ imageSignedUrl });
+      return c.json({ imageSignedUrl });
+    } catch (err) {
+      //@ts-ignore
+      return c.json({ error: err.message });
+    }
   },
 };

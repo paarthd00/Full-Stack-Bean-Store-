@@ -31,6 +31,7 @@ export function API({ stack }: StackContext) {
           handler: "packages/functions/src/lambda.handler",
         },
       },
+      "POST /login-or-register": "packages/functions/src/lambda.handler",
     },
   });
 

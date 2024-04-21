@@ -43,6 +43,7 @@ export default function AddCoffee() {
       .join("");
     return hashHex;
   };
+
   const addCoffeeForm = useForm<z.infer<typeof addCoffeeFormSchema>>({
     resolver: zodResolver(addCoffeeFormSchema),
     defaultValues: {

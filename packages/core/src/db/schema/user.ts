@@ -4,7 +4,7 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   uuid: text("uuid"),
   name: text("name"),
-  admin: boolean("admin"),
+  admin: boolean("admin").default(false),
   image: text("image"),
 });
 

@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { stripeRoute } from "./stripe";
 import { s3Route } from "./s3";
+import { userRoute } from "./user";
 
 dotenv.config({
   path: "../../../.env",
@@ -22,19 +23,27 @@ const route = app.get("/", (c: Context) => {
   return c.json({ message: "Hello Hono!", name: "hi", age: 10 });
 });
 
-const FAQRoute = app.post("/faq", faqRoute.getInfo);
-
 const getCoffeesRoute = app.get("/coffees", coffeeRoute.getCoffees);
 const addCoffeeRoute = app.post("/add-coffee", coffeeRoute.addCoffee);
 const deleteCoffeeRoute = app.post("/delete-coffee", coffeeRoute.deleteCoffee);
+
+const FAQRoute = app.post("/faq", faqRoute.getInfo);
+
 const getSignedUrlRoute = app.post("/get-signed-url", s3Route.getSignedUrl);
+
 const gotoCheckoutRoute = app.post("/goto-checkout", stripeRoute.gotoCheckout);
+
+const loginOrRegisterRoute = app.post(
+  "/login-or-register",
+  userRoute.loginOrRegister
+);
 
 export type GetCoffeesRouteType = typeof getCoffeesRoute;
 export type AddCoffeeRouteType = typeof addCoffeeRoute;
 export type DeleteCoffeeRouteType = typeof deleteCoffeeRoute;
 export type GetSignedUrlRouteType = typeof getSignedUrlRoute;
 export type GotoCheckoutRouteType = typeof gotoCheckoutRoute;
+export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

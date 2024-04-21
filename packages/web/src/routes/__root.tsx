@@ -9,15 +9,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { loginOrRegister } from '@/network/user'
+
+import { useEffect } from 'react';
+
 export const Route = createRootRoute({
   component: () => {
+    const { isAuthenticated, login, logout, user } = useKindeAuth();
 
 
-    const { isAuthenticated, login, logout } = useKindeAuth();
+    useEffect(() => {
+      if (isAuthenticated) {
+        (async () => {
+          const resp = await loginOrRegister(user);
+          console.log(resp);
+        })()
+      }
+    }, [isAuthenticated])
 
     return (
       <>
-
         {
           isAuthenticated ? (
             <>

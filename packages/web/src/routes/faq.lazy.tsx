@@ -59,7 +59,7 @@ export default function FAQ() {
         if (resp) {
           setIsLoading(false);
           setResponses(resp.allResp);
-          localStorage.setItem('Faq', JSON.stringify(resp.allResp)); 
+          localStorage.setItem('Faq', JSON.stringify(resp.allResp));
         }
       } catch (error) {
         setIsLoading(false);
@@ -89,6 +89,26 @@ export default function FAQ() {
 
   return (
     <div className="container py-4">
+      <h1 className='text-4xl'>Frequently Asked Questions</h1>
+      <h2 className='text-xl mb-4'>Get Personalized Coffee Recommendations</h2>
+      <p>
+        <strong>
+          Q: How do I find the perfect coffee for my taste?
+        </strong>
+      </p>
+      <p className='mb-2'>
+        A: Ask our AI coffee expert! Type a question like "What coffee is best for a sweet tooth?" or "Recommend a coffee for a morning pick-me-up" and get a personalized suggestion.
+        Ask Our AI Coffee Expert
+      </p>
+      <p>
+        <strong>
+          Q: Can I ask questions about coffee?
+        </strong>
+      </p>
+      <p className='mb-2'>
+        A: Yes! Our AI coffee expert is here to help. Ask about coffee origins, brewing methods, flavor profiles, or anything else you'd like to know.
+      </p>
+
       <Form {...getInfoForm}>
         <form
           className='py-4 flex gap-2'
@@ -100,15 +120,19 @@ export default function FAQ() {
             render={({ field }) => (
               <FormItem className="w-[100%]">
                 <FormControl>
-                  <Input className="rounded" placeholder="Question about coffee" {...field} />
+                  <Input className="rounded-xl" placeholder="Question about coffee" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button className="btn bg-[#0c0c0c] px-3 py-1 rounded " type="submit">Ask</Button>
+          <Button className="btn bg-[#0c0c0c] px-6 py-1 rounded " type="submit">Ask</Button>
         </form>
       </Form>
+      <p>
+        This FAQ section encourages customers to ask questions and seek personalized coffee recommendations through your AI-powered chatbot. By highlighting the chatbot's capabilities and inviting customers to ask questions, you can drive engagement and provide a unique customer experience.
+      </p>
+      <h2 className='text-xl'>Popular Coffee Types</h2>
       <div className='flex gap-2 py-3'>
         {
           ["Medium Roast", "Dark Roast"].map((el, i) => {
@@ -128,7 +152,7 @@ export default function FAQ() {
         <div className='flex gap-3 flex-wrap'>
           {responses?.map((el: FAQResponse, i: number) => {
             console.log(el);
-            return <Card key={i} className='p-3 gap-3 lg:w-[47%]'>
+            return <Card key={i} className='p-3 gap-3 lg:w-[47%] rounded-xl'>
               <div>
                 <div className='flex justify-between'>
                   <img className="mb-3 w-[45%] rounded" src={el?.imageResponse} alt="" />
@@ -161,6 +185,6 @@ export default function FAQ() {
       {
         isLoading && <SuspenseCards />
       }
-    </div>
+    </div >
   )
 }

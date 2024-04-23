@@ -1,1 +1,0 @@
-ALTER TABLE "coffees" ADD COLUMN "image" text;

@@ -5,9 +5,18 @@ import { stripeCheckout } from '@/network/stripe'
 import { loadStripe } from '@stripe/stripe-js';
 import { getCartItemsForUser } from '@/network/cart'
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react'
-
+import { Coffee } from '@/network/coffee';
 const RenderCart = () => {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState<
+    {
+      cartItems: {
+        id: number;
+        userId: number;
+        coffeeId: number;
+        quantity: number;
+      },
+      coffees:Coffee 
+    }[]>([])
   const [total, setTotal] = useState(0);
 
   const { user } = useKindeAuth();
@@ -37,6 +46,7 @@ const RenderCart = () => {
         return null;
       }
       const cartItems = await getCartItemsForUser(userId);
+      console.log({ cartItems });
       setCart(cartItems);
     })()
   }, [])

@@ -58,7 +58,6 @@ export const cartRoute = {
         .from(cartItems)
         .where(eq(cartItems.userId, currentUserID))
         .leftJoin(coffees, eq(cartItems.coffeeId, coffees.id))
-        .leftJoin(users, eq(cartItems.userId, users.id))
       
       return c.json(cartItemData);
     } catch (e: any) {

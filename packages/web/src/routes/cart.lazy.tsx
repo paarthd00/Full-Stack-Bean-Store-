@@ -1,4 +1,3 @@
-import { Coffee } from '@/network/coffee'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -38,13 +37,13 @@ const RenderCart = () => {
         return null;
       }
       const cartItems = await getCartItemsForUser(userId);
-      console.log(cartItems)
+      setCart(cartItems);
     })()
   }, [])
 
   useEffect(() => {
-    const total = cart.reduce((acc: number, item: Coffee) => {
-      return acc + item.price
+    const total = cart.reduce((acc: number, item) => {
+      return acc + (item?.coffees?.price * item?.cartItems?.quantity)
     }, 0)
     setTotal(total)
   }, [cart])
@@ -53,23 +52,24 @@ const RenderCart = () => {
     <div className='container flex justify-between'>
       <div className='py-4 w-[60%]'>
         {
-          cart?.map((item: Coffee) => {
+          cart?.map((item) => {
+            const itemTotal = item?.coffees?.price * item?.cartItems?.quantity;
             return (
-              <div className='flex gap-4 w-[100%] py-4' key={item.id}>
-                <img src={item.image} alt={item.name} className='rounded-full object-cover object-center w-[4rem] h-[4rem]' />
+              <div className='flex gap-4 w-[100%] py-4' key={item?.coffees?.id}>
+                <img src={item?.coffees?.image} alt={item?.coffees?.name} className='rounded-full object-cover object-center w-[4rem] h-[4rem]' />
                 <div className='flex flex-col gap-4 items-start w-[100%]'>
-                  <h3 className='text-xl'>{item.name}</h3>
+                  <h3 className='text-xl'>{item.coffees.name}</h3>
                   <div className='flex justify-between w-[100%]'>
                     <div className='flex gap-2 text-xl items-center'>
                       <button>
                         -
                       </button>
-                      <span className=''>1</span>
+                      <span className=''>{item?.cartItems?.quantity}</span>
                       <button>
                         +
                       </button>
                     </div>
-                    <p>${item.price}</p>
+                    <p>${itemTotal}</p>
                   </div>
                   <div className='flex gap-2'>
                     <button>

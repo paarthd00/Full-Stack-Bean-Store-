@@ -8,6 +8,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { stripeRoute } from "./stripe";
 import { s3Route } from "./s3";
 import { userRoute } from "./user";
+import { cartRoute } from "./cart";
 
 dotenv.config({
   path: "../../../.env",
@@ -33,6 +34,9 @@ const getSignedUrlRoute = app.post("/get-signed-url", s3Route.getSignedUrl);
 
 const gotoCheckoutRoute = app.post("/goto-checkout", stripeRoute.gotoCheckout);
 
+const addCoffeeToCartRoute = app.post("/add-coffee-to-cart", cartRoute.addToCart);
+
+
 const loginOrRegisterRoute = app.post(
   "/login-or-register",
   userRoute.loginOrRegister
@@ -44,6 +48,7 @@ export type DeleteCoffeeRouteType = typeof deleteCoffeeRoute;
 export type GetSignedUrlRouteType = typeof getSignedUrlRoute;
 export type GotoCheckoutRouteType = typeof gotoCheckoutRoute;
 export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
+export type AddCoffeeToCartRouteType = typeof addCoffeeToCartRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

@@ -3,18 +3,22 @@ import { useQuery } from '@tanstack/react-query';
 export const Route = createLazyFileRoute('/')({
   component: Index,
 })
+import { addToCart } from '@/network/cart';
 import { getCoffees } from '@/network/coffee';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/main';
 import { Coffee, deleteCoffee } from '@/network/coffee';
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 export default function Index() {
   const Navigate = useNavigate();
   const deleteCoffeeMutation = useMutation({
     mutationFn: deleteCoffee,
     onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
   });
+  const { user } = useKindeAuth();
+
 
   const handleDelete = async (id: number) => {
     try {
@@ -25,6 +29,15 @@ export default function Index() {
       Navigate({ to: "/" });
     }
   };
+
+  const addCoffeeToCart = async ({
+    coffeeId, userId }: {
+      coffeeId: number | undefined,
+      userId: string | undefined | null,
+    }) => {
+    if (!userId) return alert('Please login to add to cart')
+    await addToCart({ coffeeId, userId });
+  }
 
   const { isPending: coffeeDataPending, error: coffeeDataError, data: coffeeData } = useQuery({
     queryKey: ['coffeeData'],
@@ -53,19 +66,12 @@ export default function Index() {
 
                   <div className='flex gap-2'>
                     <Button
-                      onClick={() => {
-                        const cart = localStorage.getItem('cart');
-                        const cartObj = cart ? JSON.parse(cart) : [];
-                        cartObj.push(coffee);
-                        const uniqueCart = cartObj.filter((v: Coffee, i: number, a: Coffee[]) => a.findIndex(t => (t.id === v.id)) === i);
-                        localStorage.setItem('cart', JSON.stringify(uniqueCart));
-                      }}
+                      onClick={() => { addCoffeeToCart({ coffeeId: coffee.id, userId: user?.id }) }}
                       className='bg-[#0c0c0c] hover:bg-[gray] rounded'>
                       Add to Bag
                     </Button>
 
                     <Button
-
                       className='bg-[red] hover:bg-[orange] rounded'
                       onClick={() => {
                         if (!coffee.id) return

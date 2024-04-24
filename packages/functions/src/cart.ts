@@ -3,12 +3,12 @@ import { db } from "@Bean-Store/core/db";
 import { cartItems } from "@Bean-Store/core/db/schema/cartItem";
 import { eq, and } from "drizzle-orm";
 import { users } from "@Bean-Store/core/db/schema/user";
+import { coffees } from "@Bean-Store/core/db/schema/coffee";
 
 export const cartRoute = {
   addToCart: async (c: Context) => {
     try {
       const { coffeeId, userId } = await c.req.json();
-      console.log({ coffeeId, userId });
 
       const currentUserID = await db
         .select()
@@ -21,8 +21,6 @@ export const cartRoute = {
         .from(cartItems)
         .where(and(eq(cartItems.userId, currentUserID), eq(cartItems.coffeeId, coffeeId)))
         .then((data) => data[0]);
-    
-      console.log({ cartCoffee });
 
       if (cartCoffee && cartCoffee.quantity) {
         const data = await db
@@ -48,8 +46,21 @@ export const cartRoute = {
   getCartItems: async (c: Context) => {
     try {
       const { userId } = await c.req.json();
-      console.log({ userId });
-      return c.json(userId);
+      const user = await db
+        .select()
+        .from(users)
+        .where(eq(users.uuid, userId))
+        .then((data) => data[0]);
+  
+      const currentUserID = user.id;
+      
+      const cartItemData = await db.select()
+        .from(cartItems)
+        .where(eq(cartItems.userId, currentUserID))
+        .leftJoin(coffees, eq(cartItems.coffeeId, coffees.id))
+        .leftJoin(users, eq(cartItems.userId, users.id))
+      
+      return c.json(cartItemData);
     } catch (e: any) {
       return c.json({ error: e.message });
     }

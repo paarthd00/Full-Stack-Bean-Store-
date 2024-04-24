@@ -36,6 +36,7 @@ const gotoCheckoutRoute = app.post("/goto-checkout", stripeRoute.gotoCheckout);
 
 const addCoffeeToCartRoute = app.post("/add-coffee-to-cart", cartRoute.addToCart);
 
+const getCartItemsRoute = app.post("/get-cart-items", cartRoute.getCartItems);
 
 const loginOrRegisterRoute = app.post(
   "/login-or-register",
@@ -49,6 +50,7 @@ export type GetSignedUrlRouteType = typeof getSignedUrlRoute;
 export type GotoCheckoutRouteType = typeof gotoCheckoutRoute;
 export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
 export type AddCoffeeToCartRouteType = typeof addCoffeeToCartRoute;
+export type GetCartItemsRouteType = typeof getCartItemsRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

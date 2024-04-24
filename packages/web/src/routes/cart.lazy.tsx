@@ -4,10 +4,14 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { stripeCheckout } from '@/network/stripe'
 import { loadStripe } from '@stripe/stripe-js';
+import { getCartItemsForUser } from '@/network/cart'
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react'
 
 const RenderCart = () => {
   const [cart, setCart] = useState([])
   const [total, setTotal] = useState(0);
+
+  const { user } = useKindeAuth();
 
   const handleCheckout = async () => {
     try {
@@ -28,10 +32,14 @@ const RenderCart = () => {
   };
 
   useEffect(() => {
-    const cart = localStorage.getItem('cart')
-    if (cart) {
-      setCart(JSON.parse(cart))
-    }
+    (async () => {
+      const userId = user?.id;
+      if (!userId) {
+        return null;
+      }
+      const cartItems = await getCartItemsForUser(userId);
+      console.log(cartItems)
+    })()
   }, [])
 
   useEffect(() => {

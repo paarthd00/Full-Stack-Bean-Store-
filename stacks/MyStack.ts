@@ -33,6 +33,7 @@ export function API({ stack }: StackContext) {
       },
       "POST /login-or-register": "packages/functions/src/lambda.handler",
       "POST /add-coffee-to-cart": "packages/functions/src/lambda.handler",
+      "POST /get-cart-items": "packages/functions/src/lambda.handler",
     },
   });
 

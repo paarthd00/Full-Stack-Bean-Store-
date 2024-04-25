@@ -44,6 +44,11 @@ export const cartRoute = {
   updateCart: async (c: Context) => {
     try {
       const { cartItemId, quantity } = await c.req.json();
+      
+      if(quantity <= 0) {
+        const data = await db.delete(cartItems).where(eq(cartItems.id, cartItemId));
+        return c.json({ data });
+      }
 
       const data = await db
         .update(cartItems)

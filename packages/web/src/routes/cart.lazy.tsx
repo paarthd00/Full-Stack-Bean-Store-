@@ -53,7 +53,6 @@ const RenderCart = () => {
         return null;
       }
       const cartItems = await getCartItemsForUser(userId);
-      console.log({ cartItems });
       setCart(cartItems);
     })()
   }, [])
@@ -81,6 +80,9 @@ const RenderCart = () => {
                       <button
                         onClick={() => {
                           const quantity = item?.cartItems?.quantity;
+                          if (quantity === 1) {
+                            setCart(cart.splice(cart.indexOf(item), 1));
+                          }
                           setCart(cart.map((cartItem) => {
                             if (cartItem?.cartItems?.id === item?.cartItems?.id) {
                               return {

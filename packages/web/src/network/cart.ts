@@ -76,7 +76,6 @@ export async function updateCart({
   }
 }
 
-
 export async function getCartItemsForUser(userId: string) {
   const response = await fetch(
     `${import.meta.env.VITE_APP_API_URL}/get-cart-items`,

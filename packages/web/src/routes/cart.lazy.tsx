@@ -80,6 +80,19 @@ const RenderCart = () => {
                     <div className='flex gap-2 text-xl items-center'>
                       <button
                         onClick={() => {
+                          const quantity = item?.cartItems?.quantity;
+                          setCart(cart.map((cartItem) => {
+                            if (cartItem?.cartItems?.id === item?.cartItems?.id) {
+                              return {
+                                ...cartItem,
+                                cartItems: {
+                                  ...cartItem?.cartItems,
+                                  quantity: quantity - 1
+                                }
+                              }
+                            }
+                            return cartItem;
+                          }))
                           updateCartItemQuantity(item?.cartItems?.id, item?.cartItems?.quantity - 1)
                         }}
                       >
@@ -88,6 +101,20 @@ const RenderCart = () => {
                       <span className=''>{item?.cartItems?.quantity}</span>
                       <button
                         onClick={() => {
+                          const quantity = item?.cartItems?.quantity;
+                          setCart(cart.map((cartItem) => {
+                            if (cartItem?.cartItems?.id === item?.cartItems?.id) {
+                              return {
+                                ...cartItem,
+                                cartItems: {
+                                  ...cartItem?.cartItems,
+                                  quantity: quantity + 1
+                                }
+                              }
+                            }
+                            return cartItem;
+                          }))
+
                           updateCartItemQuantity(item?.cartItems?.id, item?.cartItems?.quantity + 1)
                         }}
                       >

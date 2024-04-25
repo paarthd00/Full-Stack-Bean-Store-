@@ -41,6 +41,8 @@ const getCartItemsRoute = app.post("/get-cart-items", cartRoute.getCartItems);
 
 const updateCartItemQuantityRoute = app.post("/update-cart-item-quantity", cartRoute.updateCart);
 
+const removeFromCartRoute = app.post("/remove-coffee-from-cart", cartRoute.removeFromCart);
+
 const loginOrRegisterRoute = app.post(
   "/login-or-register",
   userRoute.loginOrRegister
@@ -55,6 +57,8 @@ export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
 export type AddCoffeeToCartRouteType = typeof addCoffeeToCartRoute;
 export type GetCartItemsRouteType = typeof getCartItemsRoute;
 export type UpdateCartItemQuantityRouteType = typeof updateCartItemQuantityRoute;
+export type RemoveFromCartRouteType = typeof removeFromCartRoute;
+
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

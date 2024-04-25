@@ -24,12 +24,10 @@ export async function addToCart({
   }
 }
 
-export async function removeFromCart({ 
-  coffeeId,
-  userId,
+export async function removeFromCart({
+  cartItemId,
 }: {
-  coffeeId: number | undefined;
-  userId: string | undefined | null;
+  cartItemId: number | undefined;
 }) {
   const response = await fetch(
     `${import.meta.env.VITE_APP_API_URL}/remove-coffee-from-cart`,
@@ -39,8 +37,7 @@ export async function removeFromCart({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        coffeeId,
-        userId,
+        cartItemId,
       }),
     }
   );

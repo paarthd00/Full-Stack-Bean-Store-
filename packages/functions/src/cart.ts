@@ -44,8 +44,8 @@ export const cartRoute = {
   updateCart: async (c: Context) => {
     try {
       const { cartItemId, quantity } = await c.req.json();
-      
-      if(quantity <= 0) {
+
+      if (quantity <= 0) {
         const data = await db.delete(cartItems).where(eq(cartItems.id, cartItemId));
         return c.json({ data });
       }
@@ -60,8 +60,12 @@ export const cartRoute = {
       return c.json({ error: e.message });
     }
   },
-  removeFromCart: {},
-  emptyCart: {},
+  removeFromCart: async (c: Context) => {
+    const { cartItemId } = await c.req.json();
+    console.log(cartItemId);
+    const data = await db.delete(cartItems).where(eq(cartItems.id, cartItemId));
+    return c.json({ data });
+  },
   getCartItems: async (c: Context) => {
     try {
       const { userId } = await c.req.json();
@@ -70,14 +74,14 @@ export const cartRoute = {
         .from(users)
         .where(eq(users.uuid, userId))
         .then((data) => data[0]);
-  
+
       const currentUserID = user.id;
-      
+
       const cartItemData = await db.select()
         .from(cartItems)
         .where(eq(cartItems.userId, currentUserID))
         .leftJoin(coffees, eq(cartItems.coffeeId, coffees.id))
-      
+
       return c.json(cartItemData);
     } catch (e: any) {
       return c.json({ error: e.message });

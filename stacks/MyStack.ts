@@ -1,4 +1,4 @@
-import { StackContext, Api, StaticSite, Bucket, Table } from "sst/constructs";
+import { StackContext, Api, StaticSite, Bucket } from "sst/constructs";
 
 export function API({ stack }: StackContext) {
   const assetsBucket = new Bucket(stack, "Uploads");
@@ -35,6 +35,7 @@ export function API({ stack }: StackContext) {
       "POST /add-coffee-to-cart": "packages/functions/src/lambda.handler",
       "POST /get-cart-items": "packages/functions/src/lambda.handler",
       "POST /update-cart-item-quantity": "packages/functions/src/lambda.handler",
+      "POST /remove-coffee-from-cart": "packages/functions/src/lambda.handler",
     },
   });
 

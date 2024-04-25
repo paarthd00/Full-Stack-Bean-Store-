@@ -11,6 +11,17 @@ import { Coffee, deleteCoffee } from '@/network/coffee';
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+
+export const addCoffeeToCart = async ({
+  coffeeId, userId }: {
+    coffeeId: number | undefined,
+    userId: string | undefined | null,
+  }) => {
+  if (!userId) return alert('Please login to add to cart')
+  await addToCart({ coffeeId, userId });
+}
+
+
 export default function Index() {
   const Navigate = useNavigate();
   const deleteCoffeeMutation = useMutation({
@@ -29,15 +40,6 @@ export default function Index() {
       Navigate({ to: "/" });
     }
   };
-
-  const addCoffeeToCart = async ({
-    coffeeId, userId }: {
-      coffeeId: number | undefined,
-      userId: string | undefined | null,
-    }) => {
-    if (!userId) return alert('Please login to add to cart')
-    await addToCart({ coffeeId, userId });
-  }
 
   const { isPending: coffeeDataPending, error: coffeeDataError, data: coffeeData } = useQuery({
     queryKey: ['coffeeData'],

@@ -77,8 +77,6 @@ export default function AddCoffee() {
       hash
     });
 
-    console.log(imageSignedUrl.split("?")[0]);
-
     try {
       await addCoffeeMutation.mutateAsync
         ({
@@ -203,8 +201,6 @@ export default function AddCoffee() {
                       if (file) {
                         const url = URL.createObjectURL(file);
                         setPreviewImage(url);
-                        console.log({ file });
-                        console.log({ url });
                         handleFileChange(file);
                       } else {
                         setPreviewImage(undefined);

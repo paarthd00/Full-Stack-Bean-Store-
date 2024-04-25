@@ -11,7 +11,5 @@ export const loginOrRegister = async (user: any) => {
   );
 
   const result = await response.json();
-
-  console.log(result);
   return result;
 };

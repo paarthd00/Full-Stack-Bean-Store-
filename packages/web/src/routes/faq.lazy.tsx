@@ -39,10 +39,13 @@ import { getInfoFormSchema } from '@/lib/validation';
 import { useState } from 'react';
 import { getInfo } from '@/network/coffee';
 import SuspenseCards from '@/components/suspense-cards';
-
+import { addCoffeeToCart } from './index.lazy';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 export default function FAQ() {
   const [responses, setResponses] = useState<[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { user } = useKindeAuth();
 
   const getInfoForm = useForm<z.infer<typeof getInfoFormSchema>>({
     resolver: zodResolver(getInfoFormSchema),
@@ -151,12 +154,11 @@ export default function FAQ() {
         responses.length > 0 && isLoading === false &&
         <div className='flex gap-3 flex-wrap'>
           {responses?.map((el: FAQResponse, i: number) => {
-            console.log(el);
             return <Card key={i} className='p-3 gap-3 lg:w-[47%] rounded-xl'>
               <div>
                 <div className='flex justify-between'>
                   <img className="mb-3 w-[45%] rounded" src={el?.imageResponse} alt="" />
-                  <img className="mb-3 w-[45%] rounded" src={el.aiImage} alt="" />
+                  <img className="mb-3 w-[45%] rounded" src={el?.aiImage} alt="" />
                 </div>
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
@@ -164,13 +166,7 @@ export default function FAQ() {
                     <AccordionContent>
                       <p className='py-3'>{el.response}</p>
                       <Button
-                        onClick={() => {
-                          const cart = localStorage.getItem('cart');
-                          const cartObj = cart ? JSON.parse(cart) : [];
-                          cartObj.push(el.coffeeData);
-                          const uniqueCart = cartObj.filter((v: Coffee, i: number, a: Coffee[]) => a.findIndex(t => (t.id === v.id)) === i);
-                          localStorage.setItem('cart', JSON.stringify(uniqueCart));
-                        }}
+                        onClick={() => { addCoffeeToCart({ coffeeId: el.coffeeData.id, userId: user?.id }) }}
                         className='bg-[#0c0c0c] hover:bg-[gray] rounded'>
                         Add to Bag
                       </Button>

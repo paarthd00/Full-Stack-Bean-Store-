@@ -23,7 +23,6 @@ export const s3Route = {
         expiresIn: 3600,
       });
 
-      console.log({ imageSignedUrl });
       return c.json({ imageSignedUrl });
     } catch (err) {
       //@ts-ignore

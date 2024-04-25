@@ -15,7 +15,7 @@ const RenderCart = () => {
         coffeeId: number;
         quantity: number;
       },
-      coffees:Coffee 
+      coffees: Coffee
     }[]>([])
   const [total, setTotal] = useState(0);
 
@@ -68,7 +68,7 @@ const RenderCart = () => {
               <div className='flex gap-4 w-[100%] py-4' key={item?.coffees?.id}>
                 <img src={item?.coffees?.image} alt={item?.coffees?.name} className='rounded-full object-cover object-center w-[4rem] h-[4rem]' />
                 <div className='flex flex-col gap-4 items-start w-[100%]'>
-                  <h3 className='text-xl'>{item.coffees.name}</h3>
+                  <h3 className='text-xl'>{item?.coffees?.name}</h3>
                   <div className='flex justify-between w-[100%]'>
                     <div className='flex gap-2 text-xl items-center'>
                       <button>

@@ -1,5 +1,5 @@
 {
-  "id": "5c63b826-8417-4840-9a3f-8a6e664a759c",
+  "id": "5ae204bd-9ecf-457d-853f-661f16415431",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -45,7 +45,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "cartItems_coffeeId_coffees_id_fk": {
@@ -58,7 +58,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },

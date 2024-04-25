@@ -24,7 +24,7 @@ export const faqRoute = {
       //@ts-ignore
       const vectorEmbedding = respJSON.data[0]["embedding"];
 
-      const vectorResponse = await coffeeIndex.namespace("coffeens").query({
+      const vectorResponse = await coffeeIndex.namespace("coffees").query({
         topK: 2,
         vector: vectorEmbedding,
         includeValues: true,

@@ -48,7 +48,7 @@ export const coffeeRoute = {
 
     const id = uuidv4();
     try {
-      await coffeeIndex.namespace("coffeens").upsert([
+      await coffeeIndex.namespace("coffees").upsert([
         {
           id: id,
           values: vectorEmbedding,
@@ -71,7 +71,7 @@ export const coffeeRoute = {
   },
   deleteCoffee: async (c: Context) => {
     const { id } = await c.req.json();
-
+    console.log(id);
     try {
       const deletedCoffee = await db
         .delete(coffees)
@@ -80,7 +80,7 @@ export const coffeeRoute = {
         .then((el) => el[0]);
 
       if (deletedCoffee.uuid) {
-        await coffeeIndex.namespace("coffeens")._deleteOne(deletedCoffee.uuid);
+        await coffeeIndex.namespace("coffees")._deleteOne(deletedCoffee.uuid);
       }
 
       return c.json({ id });

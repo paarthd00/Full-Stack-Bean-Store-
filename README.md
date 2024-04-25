@@ -8,7 +8,9 @@ A smart FAQ retrieval system for your favorite coffee store, powered by a RAG mo
 
 - [ ] Setup Access Control
 
-- [ ] User Schema
+- [ ] Setup Profile Page
+
+- [x] User Schema
 
 - [x] Setup S3 for image upload
 

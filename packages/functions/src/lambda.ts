@@ -9,6 +9,7 @@ import { stripeRoute } from "./stripe";
 import { s3Route } from "./s3";
 import { userRoute } from "./user";
 import { cartRoute } from "./cart";
+import { warn } from "console";
 
 dotenv.config({
   path: "../../../.env",
@@ -38,6 +39,8 @@ const addCoffeeToCartRoute = app.post("/add-coffee-to-cart", cartRoute.addToCart
 
 const getCartItemsRoute = app.post("/get-cart-items", cartRoute.getCartItems);
 
+const updateCartItemQuantityRoute = app.post("/update-cart-item-quantity", cartRoute.updateCart);
+
 const loginOrRegisterRoute = app.post(
   "/login-or-register",
   userRoute.loginOrRegister
@@ -51,6 +54,7 @@ export type GotoCheckoutRouteType = typeof gotoCheckoutRoute;
 export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
 export type AddCoffeeToCartRouteType = typeof addCoffeeToCartRoute;
 export type GetCartItemsRouteType = typeof getCartItemsRoute;
+export type UpdateCartItemQuantityRouteType = typeof updateCartItemQuantityRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

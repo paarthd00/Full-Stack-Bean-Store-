@@ -41,6 +41,20 @@ export const cartRoute = {
       return c.json({ error: e.message });
     }
   },
+  updateCart: async (c: Context) => {
+    try {
+      const { cartItemId, quantity } = await c.req.json();
+
+      const data = await db
+        .update(cartItems)
+        .set({ quantity })
+        .where(eq(cartItems.id, cartItemId));
+
+      return c.json({ data });
+    } catch (e: any) {
+      return c.json({ error: e.message });
+    }
+  },
   removeFromCart: {},
   emptyCart: {},
   getCartItems: async (c: Context) => {

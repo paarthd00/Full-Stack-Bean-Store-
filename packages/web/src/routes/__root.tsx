@@ -21,8 +21,7 @@ export const Route = createRootRoute({
     useEffect(() => {
       if (isAuthenticated) {
         (async () => {
-          const resp = await loginOrRegister(user);
-          console.log(resp);
+          await loginOrRegister(user);
         })()
       }
     }, [isAuthenticated])

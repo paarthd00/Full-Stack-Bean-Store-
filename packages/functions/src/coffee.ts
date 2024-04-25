@@ -71,7 +71,6 @@ export const coffeeRoute = {
   },
   deleteCoffee: async (c: Context) => {
     const { id } = await c.req.json();
-    console.log(id);
     try {
       const deletedCoffee = await db
         .delete(coffees)

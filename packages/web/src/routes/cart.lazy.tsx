@@ -6,6 +6,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { getCartItemsForUser } from '@/network/cart'
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react'
 import { Coffee } from '@/network/coffee';
+import { updateCart } from '@/network/cart';
+
 const RenderCart = () => {
   const [cart, setCart] = useState<
     {
@@ -17,6 +19,7 @@ const RenderCart = () => {
       },
       coffees: Coffee
     }[]>([])
+
   const [total, setTotal] = useState(0);
 
   const { user } = useKindeAuth();
@@ -38,6 +41,10 @@ const RenderCart = () => {
       console.error(err);
     }
   };
+
+  const updateCartItemQuantity = async (cartItemId: number, quantity: number) => {
+    await updateCart({ cartItemId, quantity });
+  }
 
   useEffect(() => {
     (async () => {
@@ -71,11 +78,19 @@ const RenderCart = () => {
                   <h3 className='text-xl'>{item?.coffees?.name}</h3>
                   <div className='flex justify-between w-[100%]'>
                     <div className='flex gap-2 text-xl items-center'>
-                      <button>
+                      <button
+                        onClick={() => {
+                          updateCartItemQuantity(item?.cartItems?.id, item?.cartItems?.quantity - 1)
+                        }}
+                      >
                         -
                       </button>
                       <span className=''>{item?.cartItems?.quantity}</span>
-                      <button>
+                      <button
+                        onClick={() => {
+                          updateCartItemQuantity(item?.cartItems?.id, item?.cartItems?.quantity + 1)
+                        }}
+                      >
                         +
                       </button>
                     </div>

@@ -65,6 +65,11 @@ const loginOrRegisterRoute = app.post(
 );
 
 const isAdminRoute = app.post("/is-admin", userRoute.isAdmin);
+const getAllUsersRoute = app.get(
+  "/users",
+  adminAuthorizationMiddleware,
+  userRoute.getAllUsers
+);
 
 export type GetCoffeesRouteType = typeof getCoffeesRoute;
 export type AddCoffeeRouteType = typeof addCoffeeRoute;
@@ -78,6 +83,7 @@ export type UpdateCartItemQuantityRouteType =
   typeof updateCartItemQuantityRoute;
 export type RemoveFromCartRouteType = typeof removeFromCartRoute;
 export type IsAdminRouteType = typeof isAdminRoute;
+export type GetAllUsersRouteType = typeof getAllUsersRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

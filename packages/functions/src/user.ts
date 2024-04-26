@@ -28,7 +28,6 @@ export const userRoute = {
       return c.json({ error: err.message });
     }
   },
-
   isAdmin: async (c: Context) => {
     const headerValue = c.req.header("Authorization");
     const userId = headerValue?.split("Bearer ")[1];
@@ -47,5 +46,17 @@ export const userRoute = {
     }
 
     return c.json({ admin: true });
+  },
+  getAllUsers: async (c: Context) => {
+    try {
+      const data = await db.select().from(users);
+      data.forEach((user) => {
+        //@ts-ignore
+        delete user.uuid;
+      });
+      return c.json(data);
+    } catch (e: any) {
+      return c.json({ error: e.message });
+    }
   },
 };

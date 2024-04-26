@@ -26,3 +26,16 @@ export const checkIfAdmin = async () => {
   const result = await response.json();
   return result;
 };
+
+export const getUsers = async () => {
+  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/users`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("userId"),
+      "Content-Type": "application/json",
+    },
+  });
+
+  const result = await response.json();
+  return result;
+};

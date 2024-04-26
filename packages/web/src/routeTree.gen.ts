@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersImport } from './routes/users'
 
 // Create Virtual Routes
 
@@ -44,6 +45,11 @@ const AddCoffeeLazyRoute = AddCoffeeLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/add-coffee.lazy').then((d) => d.Route))
 
+const UsersRoute = UsersImport.update({
+  path: '/users',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -55,6 +61,10 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/users': {
+      preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
     '/add-coffee': {
@@ -80,6 +90,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  UsersRoute,
   AddCoffeeLazyRoute,
   CartLazyRoute,
   FaqLazyRoute,

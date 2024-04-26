@@ -47,6 +47,13 @@ export const Route = createRootRoute({
                       Add Coffee
                     </Link>
                   }
+                  {
+                    isAdmin
+                    &&
+                    <Link to="/users" className="[&.active]:font-bold">
+                      Users
+                    </Link>
+                  }
                   <Link to="/faq" className="[&.active]:font-bold">
                     FAQ
                   </Link>

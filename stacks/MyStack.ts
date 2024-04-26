@@ -38,6 +38,7 @@ export function API({ stack }: StackContext) {
         "packages/functions/src/lambda.handler",
       "POST /remove-coffee-from-cart": "packages/functions/src/lambda.handler",
       "POST /is-admin": "packages/functions/src/lambda.handler",
+      "GET /users": "packages/functions/src/lambda.handler",
     },
   });
 

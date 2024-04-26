@@ -70,8 +70,8 @@ const RenderCart = () => {
   }, [cart])
 
   return (
-    <div className='container flex justify-between'>
-      <div className='py-4 w-[60%]'>
+    <div className='container flex justify-between flex-wrap'>
+      <div className='py-4 lg:w-[60%] w-[100%]'>
         {
           cart?.map((item) => {
             const itemTotal = item?.coffees?.price * item?.cartItems?.quantity;
@@ -154,7 +154,7 @@ const RenderCart = () => {
           })
         }
       </div>
-      <div className='py-4 w-[35%]'>
+      <div className='py-4 lg:w-[35%] w-[100%]'>
         <h2 className='text-2xl py-4'>
           Summary
         </h2>

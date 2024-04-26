@@ -23,7 +23,13 @@ export const getInfo = async (prompt: string) => {
 };
 
 export const getCoffees = async (): Promise<Coffee[]> => {
-  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/coffees`);
+  const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/coffees`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("userId"),
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch coffees");

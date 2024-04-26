@@ -8,22 +8,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-import { loginOrRegister } from '@/network/user'
+import { useState } from 'react';
+import { loginOrRegister, checkIfAdmin } from '@/network/user'
 
 import { useEffect } from 'react';
 
 export const Route = createRootRoute({
   component: () => {
     const { isAuthenticated, login, logout, user } = useKindeAuth();
-
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
       if (isAuthenticated) {
         (async () => {
+          localStorage.setItem('userId', user?.id || '');
           await loginOrRegister(user);
+          const { admin } = await checkIfAdmin();
+          setIsAdmin(admin);
         })()
       }
+
     }, [isAuthenticated])
 
     return (
@@ -36,9 +40,13 @@ export const Route = createRootRoute({
                   <Link to="/" className="[&.active]:font-bold">
                     Home
                   </Link>{' '}
-                  <Link to="/add-coffee" className="[&.active]:font-bold">
-                    Add Coffee
-                  </Link>
+                  {
+                    isAdmin
+                    &&
+                    <Link to="/add-coffee" className="[&.active]:font-bold">
+                      Add Coffee
+                    </Link>
+                  }
                   <Link to="/faq" className="[&.active]:font-bold">
                     FAQ
                   </Link>
@@ -77,7 +85,6 @@ export const Route = createRootRoute({
                               Profile
                             </span>
                           </div>
-
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

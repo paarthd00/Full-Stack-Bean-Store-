@@ -9,8 +9,7 @@ import { stripeRoute } from "./stripe";
 import { s3Route } from "./s3";
 import { userRoute } from "./user";
 import { cartRoute } from "./cart";
-import { warn } from "console";
-
+import { adminAuthorizationMiddleware } from "./middleware/admin-authorization";
 dotenv.config({
   path: "../../../.env",
 });
@@ -26,8 +25,16 @@ const route = app.get("/", (c: Context) => {
 });
 
 const getCoffeesRoute = app.get("/coffees", coffeeRoute.getCoffees);
-const addCoffeeRoute = app.post("/add-coffee", coffeeRoute.addCoffee);
-const deleteCoffeeRoute = app.post("/delete-coffee", coffeeRoute.deleteCoffee);
+const addCoffeeRoute = app.post(
+  "/add-coffee",
+  adminAuthorizationMiddleware,
+  coffeeRoute.addCoffee
+);
+const deleteCoffeeRoute = app.post(
+  "/delete-coffee",
+  adminAuthorizationMiddleware,
+  coffeeRoute.deleteCoffee
+);
 
 const FAQRoute = app.post("/faq", faqRoute.getInfo);
 
@@ -35,18 +42,29 @@ const getSignedUrlRoute = app.post("/get-signed-url", s3Route.getSignedUrl);
 
 const gotoCheckoutRoute = app.post("/goto-checkout", stripeRoute.gotoCheckout);
 
-const addCoffeeToCartRoute = app.post("/add-coffee-to-cart", cartRoute.addToCart);
+const addCoffeeToCartRoute = app.post(
+  "/add-coffee-to-cart",
+  cartRoute.addToCart
+);
 
 const getCartItemsRoute = app.post("/get-cart-items", cartRoute.getCartItems);
 
-const updateCartItemQuantityRoute = app.post("/update-cart-item-quantity", cartRoute.updateCart);
+const updateCartItemQuantityRoute = app.post(
+  "/update-cart-item-quantity",
+  cartRoute.updateCart
+);
 
-const removeFromCartRoute = app.post("/remove-coffee-from-cart", cartRoute.removeFromCart);
+const removeFromCartRoute = app.post(
+  "/remove-coffee-from-cart",
+  cartRoute.removeFromCart
+);
 
 const loginOrRegisterRoute = app.post(
   "/login-or-register",
   userRoute.loginOrRegister
 );
+
+const isAdminRoute = app.post("/is-admin", userRoute.isAdmin);
 
 export type GetCoffeesRouteType = typeof getCoffeesRoute;
 export type AddCoffeeRouteType = typeof addCoffeeRoute;
@@ -56,9 +74,10 @@ export type GotoCheckoutRouteType = typeof gotoCheckoutRoute;
 export type LoginOrRegisterRouteType = typeof loginOrRegisterRoute;
 export type AddCoffeeToCartRouteType = typeof addCoffeeToCartRoute;
 export type GetCartItemsRouteType = typeof getCartItemsRoute;
-export type UpdateCartItemQuantityRouteType = typeof updateCartItemQuantityRoute;
+export type UpdateCartItemQuantityRouteType =
+  typeof updateCartItemQuantityRoute;
 export type RemoveFromCartRouteType = typeof removeFromCartRoute;
-
+export type IsAdminRouteType = typeof isAdminRoute;
 
 export type FAQRouteType = typeof FAQRoute;
 export type RouteType = typeof route;

@@ -11,7 +11,8 @@ import { Coffee, deleteCoffee } from '@/network/coffee';
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from '@/components/ui/button';
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
-
+import { useEffect, useState } from 'react';
+import { checkIfAdmin } from '@/network/user';
 export const addCoffeeToCart = async ({
   coffeeId, userId }: {
     coffeeId: number | undefined,
@@ -24,13 +25,24 @@ export const addCoffeeToCart = async ({
 
 export default function Index() {
   const Navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const deleteCoffeeMutation = useMutation({
     mutationFn: deleteCoffee,
     onSettled: () => queryClient.invalidateQueries({ "queryKey": ["coffeeData"] })
   });
-  const { user } = useKindeAuth();
+  const { user, isAuthenticated } = useKindeAuth();
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      (async () => {
+        localStorage.setItem('userId', user?.id || '');
+        const { admin } = await checkIfAdmin();
+        setIsAdmin(admin);
+      })()
+    }
 
+  }, [isAuthenticated])
   const handleDelete = async (id: number) => {
     try {
       deleteCoffeeMutation.mutateAsync(id);
@@ -72,14 +84,16 @@ export default function Index() {
                       className='bg-[#0c0c0c] hover:bg-[gray] rounded'>
                       Add to Bag
                     </Button>
-
-                    <Button
-                      className='bg-[red] hover:bg-[orange] rounded'
-                      onClick={() => {
-                        if (!coffee.id) return
-                        handleDelete(coffee?.id)
-                      }}
-                    >Delete</Button>
+                    {
+                      isAdmin &&
+                      <Button
+                        className='bg-[red] hover:bg-[orange] rounded'
+                        onClick={() => {
+                          if (!coffee.id) return
+                          handleDelete(coffee?.id)
+                        }}
+                      >Delete</Button>
+                    }
                   </div>
                 </div>
               </div>

@@ -28,4 +28,24 @@ export const userRoute = {
       return c.json({ error: err.message });
     }
   },
+
+  isAdmin: async (c: Context) => {
+    const headerValue = c.req.header("Authorization");
+    const userId = headerValue?.split("Bearer ")[1];
+    if (!userId) {
+      return c.json({ error: "Unauthorized" });
+    }
+
+    const currentUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.uuid, userId))
+      .then((res) => res[0]);
+
+    if (!currentUser || currentUser.admin === false) {
+      return c.json({ error: "Unauthorized" });
+    }
+
+    return c.json({ admin: true });
+  },
 };

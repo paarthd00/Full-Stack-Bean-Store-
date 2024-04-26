@@ -34,8 +34,10 @@ export function API({ stack }: StackContext) {
       "POST /login-or-register": "packages/functions/src/lambda.handler",
       "POST /add-coffee-to-cart": "packages/functions/src/lambda.handler",
       "POST /get-cart-items": "packages/functions/src/lambda.handler",
-      "POST /update-cart-item-quantity": "packages/functions/src/lambda.handler",
+      "POST /update-cart-item-quantity":
+        "packages/functions/src/lambda.handler",
       "POST /remove-coffee-from-cart": "packages/functions/src/lambda.handler",
+      "POST /is-admin": "packages/functions/src/lambda.handler",
     },
   });
 

@@ -7,8 +7,6 @@ import { getCartItemsForUser } from '@/network/cart'
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react'
 import { Coffee } from '@/network/coffee';
 import { updateCart } from '@/network/cart';
-import { Skeleton } from "@/components/ui/skeleton"
-import { useQuery } from '@tanstack/react-query';
 
 const RenderCart = () => {
   const [cart, setCart] = useState<
@@ -48,31 +46,23 @@ const RenderCart = () => {
     await updateCart({ cartItemId, quantity });
   }
 
-  const { isPending, error, data: cartData } = useQuery({
-    queryKey: ['cartData'],
-    queryFn: () => getCartItemsForUser(user?.id || ''),
-  })
+  useEffect(() => {
+    (async () => {
+      const userId = user?.id;
+      if (!userId) {
+        return null;
+      }
+      const cartItems = await getCartItemsForUser(userId);
+      setCart(cartItems);
+    })()
+  }, [])
 
   useEffect(() => {
-    setCart(cartData)
-    const total = cartData?.reduce((acc: number, item) => {
+    const total = cart.reduce((acc: number, item) => {
       return acc + (item?.coffees?.price * item?.cartItems?.quantity)
     }, 0)
     setTotal(total)
-  }, [cartData])
-  {
-
-    isPending && <div className="flex items-center space-x-4 bg-[orange]">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
-    </div>
-  }
-  {
-    error && <div>An error has occurred: {error.message}</div>
-  }
+  }, [cart])
 
   return (
     <div className='container flex justify-between flex-wrap'>

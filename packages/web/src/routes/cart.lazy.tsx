@@ -7,7 +7,6 @@ import { getCartItemsForUser } from '@/network/cart'
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react'
 import { Coffee } from '@/network/coffee';
 import { updateCart } from '@/network/cart';
-import { removeFromCart } from '@/network/cart';
 
 const RenderCart = () => {
   const [cart, setCart] = useState<

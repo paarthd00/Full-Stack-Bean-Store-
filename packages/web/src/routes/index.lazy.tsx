@@ -41,8 +41,8 @@ export default function Index() {
         setIsAdmin(admin);
       })()
     }
-
   }, [isAuthenticated])
+
   const handleDelete = async (id: number) => {
     try {
       deleteCoffeeMutation.mutateAsync(id);
@@ -62,12 +62,12 @@ export default function Index() {
   if (coffeeDataError) return 'An error has occurred: ' + coffeeDataError.message
 
   return (
-    <div className="App">
+    <div className="App container">
       <div className="px-3 py-6">
         <div className='flex flex-wrap'>
           {
             coffeeData?.map((coffee: Coffee) => (
-              <div className='lg:w-1/3 w-[100%] px-2 py-2' key={coffee.id}>
+              <div className='lg:w-1/4 w-[100%] px-2 py-2' key={coffee.id}>
                 <img src={coffee.image} alt={coffee.name} className='rounded-xl object-cover object-center w-[100%] h-[20rem] py-2' />
                 <div className='flex flex-col gap-4 items-start'>
                   <h3 className='text-xl'>{coffee.name}</h3>

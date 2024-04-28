@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { useEffect, useState } from 'react';
 import { checkIfAdmin } from '@/network/user';
+import { Skeleton } from '@/components/ui/skeleton';
+
 export const addCoffeeToCart = async ({
   coffeeId, userId }: {
     coffeeId: number | undefined,
@@ -21,7 +23,6 @@ export const addCoffeeToCart = async ({
   if (!userId) return alert('Please login to add to cart')
   await addToCart({ coffeeId, userId });
 }
-
 
 export default function Index() {
   const Navigate = useNavigate();
@@ -58,7 +59,13 @@ export default function Index() {
     queryFn: () => getCoffees(),
   })
 
-  if (coffeeDataPending) return 'Loading...'
+  if (coffeeDataPending) return <div className="flex flex-col space-y-3">
+    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-[250px]" />
+      <Skeleton className="h-4 w-[200px]" />
+    </div>
+  </div>
   if (coffeeDataError) return 'An error has occurred: ' + coffeeDataError.message
 
   return (

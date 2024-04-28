@@ -8,8 +8,7 @@ function InnerCard() {
             className="h-[20rem]
                         bg-gray-200
                         dark:bg-gray-800
-                        rounded-tl-lg
-                        rounded-tr-lg
+                        rounded
                         animate-pulse
                         w-[20rem]"
         ></div>
